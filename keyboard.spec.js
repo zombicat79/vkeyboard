@@ -90,6 +90,13 @@ describe('keyboard.js', function() {
             expect(keyboard.mount()).toBe(true);
         })
 
+        it('should have an arm() method', function() {
+            const button = document.createElement('button');
+            button.classList.add('random-test-class');
+
+            expect(keyboard.arm(button)).toBeTruthy();
+        })
+
         xit('should have a destroy() method', function() {
             expect(keyboard.tabulate()).toBeNull();
         })
@@ -365,6 +372,23 @@ describe('keyboard.js', function() {
             }
         })
 
+        it('should call the arm() method for every button in the keyboard', function() {
+            const spanishNormalTotal = spanishMap.normal[0].length + spanishMap.normal[1].length + spanishMap.normal[2].length + spanishMap.normal[3].length + spanishMap.normal[4].length;
+            const spanishCapitalizedTotal = spanishMap.capitalized[0].length + spanishMap.capitalized[1].length + spanishMap.capitalized[2].length + spanishMap.capitalized[3].length + spanishMap.capitalized[4].length;
+            const spanishShiftedTotal = spanishMap.shifted[0].length + spanishMap.shifted[1].length + spanishMap.shifted[2].length + spanishMap.shifted[3].length + spanishMap.shifted[4].length;
+            const spanishAlternatedTotal = spanishMap.alternated[0].length + spanishMap.alternated[1].length + spanishMap.alternated[2].length + spanishMap.alternated[3].length + spanishMap.alternated[4].length;
+            const spanishGrandTotal = spanishNormalTotal + spanishCapitalizedTotal + spanishShiftedTotal + spanishAlternatedTotal;
+
+            const russianNormalTotal = russianMap.normal[0].length + russianMap.normal[1].length + russianMap.normal[2].length + russianMap.normal[3].length + russianMap.normal[4].length;
+            const russianCapitalizedTotal = russianMap.capitalized[0].length + russianMap.capitalized[1].length + russianMap.capitalized[2].length + russianMap.capitalized[3].length + russianMap.capitalized[4].length;
+            const russianShiftedTotal = russianMap.shifted[0].length + russianMap.shifted[1].length + russianMap.shifted[2].length + russianMap.shifted[3].length + russianMap.shifted[4].length;
+            const russianAlternatedTotal = russianMap.alternated[0].length + russianMap.alternated[1].length + russianMap.alternated[2].length + russianMap.alternated[3].length + russianMap.alternated[4].length;
+            const russianGrandTotal = russianNormalTotal + russianCapitalizedTotal + russianShiftedTotal + russianAlternatedTotal;
+
+            expect(keyboard.armedBtns).toBe(spanishGrandTotal);
+            expect(keyboard2.armedBtns).toBe(russianGrandTotal);
+        })
+
         afterEach(() => {
             testKeyboard = null;
             testBtn = null;
@@ -377,6 +401,145 @@ describe('keyboard.js', function() {
             auxTestDiv = null;
             keyboard = null;
             keyboard2 = null;
+        })
+    })
+
+    describe('arm() method', function() {
+        let initialization;
+        let initialization2;
+
+        let button;
+        let button2;
+        let button3;
+        
+        beforeAll(() => {
+            mainTestDiv = document.createElement('div');
+            mainTestDiv.setAttribute('id', 'main-element');
+            mainTestDiv.style.opacity = '0';
+            document.body.appendChild(mainTestDiv);
+            keyboard = new Keyboard('main-element', 'fr-FR');
+
+            auxTestDiv = document.createElement('div');
+            auxTestDiv.setAttribute('id', 'keyboard-wrapper');
+            auxTestDiv.style.opacity = '0';
+            document.body.appendChild(auxTestDiv);
+            keyboard2 = new Keyboard('keyboard-wrapper', 'de-DE');
+        })
+
+        beforeEach(() => {
+            initialization = keyboard.init();
+            initialization2 = keyboard2.init();
+
+            button = document.createElement('button');
+            button2 = document.createElement('button');
+            button3 = document.createElement('button');
+        })
+
+        it('should receive 1 button type HTML element as parameter', function() {
+            expect(function() {keyboard.arm()}).toThrow();
+            expect(keyboard.arm(button)).toEqual({button: button, payload: "", action: null, armed: true});
+            expect(keyboard.arm(button2)).toEqual({button: button2, payload: "", action: null, armed: true});
+            expect(keyboard.arm(button3)).toEqual({button: button3, payload: "", action: null, armed: true});
+        })
+
+        it('should throw error if parameter received were not an HTML button element', function() {
+            button = document.createElement('div');
+            button2 = document.createElement('p');
+            
+            expect(function() {keyboard.arm(button)}).toThrow();
+            expect(function() {keyboard.arm(button2)}).toThrow();
+            expect(function() {keyboard.arm(button3)}).not.toThrow();
+        })
+
+        it('should call button specific methods on different type of buttons', function() {
+            const button4 = document.createElement('button');
+            const button5 = document.createElement('button');
+            const button6 = document.createElement('button');
+            const button7 = document.createElement('button');
+            const button8 = document.createElement('button');
+            const button9 = document.createElement('button');
+            const button10 = document.createElement('button');
+            const button11 = document.createElement('button');
+            
+            button.classList.add('random-test-class');
+            button2.classList.add('keyboard__button--standard');
+            button2.dataset.content = "81";
+            button2.innerHTML = "Q";
+            button3.classList.add('keyboard__button--standard');
+            button3.dataset.content = "*94";
+            button3.innerHTML = "^";
+            
+            const opBtns = [button4, button5, button6, button7, button8, button9, button10, button11];
+            opBtns.forEach(el => el.classList.add('keyboard__button--operation'));
+
+            button4.dataset.content = "Caps";
+            button4.innerHTML = "Caps";
+            button5.dataset.content = "Shift";
+            button5.innerHTML = "Shift";
+            button6.dataset.content = "Alt";
+            button6.innerHTML = "Alt";
+            button7.dataset.content = "Tab";
+            button7.innerHTML = "Tab";
+            button8.dataset.content = "Backspace";
+            button8.innerHTML = "Backspace";
+            button9.dataset.content = "Enter";
+            button9.innerHTML = "Enter";
+            button10.dataset.content = "Space";
+            button10.innerHTML = "Space";
+            button11.dataset.content = "Control";
+            button11.innerHTML = "Control";
+
+            expect(keyboard.arm(button)).toEqual({button: button, payload: "", action: null , armed: true});
+            expect(keyboard.arm(button2)).toEqual({button: button2, payload: "Q", action: 'write', armed: true});
+            expect(keyboard.arm(button3)).toEqual({button: button3, payload: "^", action: 'writeAux', armed: true});
+            expect(keyboard.arm(button4)).toEqual({button: button4, payload: "Caps", action: 'capitalize', armed: true});
+            expect(keyboard.arm(button5)).toEqual({button: button5, payload: "Shift", action: 'shift', armed: true});
+            expect(keyboard.arm(button6)).toEqual({button: button6, payload: "Alt", action: 'alternate', armed: true});
+            expect(keyboard.arm(button7)).toEqual({button: button7, payload: "Tab", action: 'tabulate', armed: true});
+            expect(keyboard.arm(button8)).toEqual({button: button8, payload: "Backspace", action: 'delete', armed: true});
+            expect(keyboard.arm(button9)).toEqual({button: button9, payload: "Enter", action: 'enter', armed: true});
+            expect(keyboard.arm(button10)).toEqual({button: button10, payload: "Space", action: 'space', armed: true});
+            expect(keyboard.arm(button11)).toEqual({button: button11, payload: "Control", action: 'control', armed: true});
+        })
+
+        xit('should add an onclick event listener to every button', function() {
+            button.classList.add('keyboard__button--standard');
+            keyboard.arm(button);
+            const action = button.getEventListeners();
+            
+            expect(action).toBeTruthy();
+        })
+
+        xit('should add 1 new object entry to the init report', function() {
+
+        })
+
+        xit('should return 1 object confirming completion of arming process', function() {
+
+        })
+
+        afterEach(() => {
+            initialization = null;
+            initialization2 = null;
+
+            button = null;
+            button2 = null;
+            button3 = null;
+        })
+
+        afterAll(() => {
+            mainTestDiv.remove();
+            auxTestDiv.remove();
+            mainTestDiv = null;
+            auxTestDiv = null;
+            keyboard = null;
+            keyboard2 = null;
+        })
+    })
+
+    describe('destroy() method', function() {
+        xit('should remove a previously initialized keyboard from the DOM', function() {
+
         })
     })
 

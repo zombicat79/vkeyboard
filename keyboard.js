@@ -23,6 +23,7 @@ class Keyboard {
         this.target = target;
         this.language = null;
         this.map = null;
+        this.armedBtns = 0;
 
         this.availableLangCodes = ["es-ES", "en-GB", "it-IT", "fr-FR", "de-DE", "ru-RU"];
         this.availableLanguages = ["spanish", "english", "italian", "french", "german", "russian"];
@@ -151,6 +152,7 @@ class Keyboard {
                         }
                     }
 
+                    this.arm(newBtn);
                     keyboardDIVs[superindex].appendChild(newBtn);
                     columnPosition += 1;
                     // console.log(newBtn)
@@ -164,6 +166,85 @@ class Keyboard {
         return true;
     }
 
+    arm(btn) {
+        if (!btn) {
+            throw new Error ('Tried to arm without specifying any element');
+        }
+        if (btn.nodeName !== 'BUTTON') {
+            throw new Error ('Tried to arm an element that is not a button');
+        }
+
+        this.armedBtns += 1;
+        let action = null;
+
+        const btnClasses = btn.getAttribute('class');
+        if (btnClasses) {
+            switch(true) {
+                case btnClasses.includes('standard'):
+                    if (btn.dataset.content === "" || btn.dataset.content === "null") {
+                        action = null;
+                    } else if (/^\*/.test(btn.dataset.content)) {
+                        btn.addEventListener('click', function() {
+                            this.writeAux(btn.innerHTML);
+                        });
+                        action = 'writeAux';
+                    } else {
+                        btn.addEventListener('click', function() {
+                            this.write(btn.innerHTML);
+                        });
+                        action = 'write';
+                    }
+                    break;
+                case btnClasses.includes('operation'):
+                    if (btn.dataset.content === "Caps") {
+                        btn.addEventListener('click', function() {
+                            this.capitalize();
+                        });
+                        action = 'capitalize';
+                    } else if (btn.dataset.content === "Shift") {
+                        btn.addEventListener('click', function() {
+                            this.shift();
+                        });
+                        action = 'shift';
+                    } else if (btn.dataset.content === "Alt") {
+                        btn.addEventListener('click', function() {
+                            this.alternate();
+                        });
+                        action = 'alternate';
+                    } else if (btn.dataset.content === "Tab") {
+                        btn.addEventListener('click', function() {
+                            this.tabulate();
+                        });
+                        action = 'tabulate';
+                    } else if (btn.dataset.content === "Backspace") {
+                        btn.addEventListener('click', function() {
+                            this.delete();
+                        });
+                        action = 'delete';
+                    } else if (btn.dataset.content === "Enter") {
+                        btn.addEventListener('click', function() {
+                            this.enter();
+                        });
+                        action = 'enter';
+                    }
+                    else if (btn.dataset.content === "Space") {
+                        btn.addEventListener('click', function() {
+                            this.space();
+                        });
+                        action = 'space';
+                    } else if (btn.dataset.content === "Control") {
+                        btn.addEventListener('click', function() {
+                            this.control();
+                        });
+                        action = 'control';
+                    }
+                    break;
+            }
+    
+        }
+
+        return {button: btn, payload: btn.innerHTML, action: action, armed: true};
+    } 
 
     tabulate() {
         
@@ -186,6 +267,10 @@ class Keyboard {
     }
 
     write() {
+
+    }
+
+    writeAux() {
 
     }
 
