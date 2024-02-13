@@ -22,11 +22,15 @@ class Keyboard {
         
         this.target = target;
         this.language = null;
+        this.langId = null;
         this.map = null;
         this.armedBtns = 0;
+        this.input = "";
+        this.graphModifier = null;
+        this.initReport = [];
 
-        this.availableLangCodes = ["es-ES", "en-GB", "it-IT", "fr-FR", "de-DE", "ru-RU"];
-        this.availableLanguages = ["spanish", "english", "italian", "french", "german", "russian"];
+        this.availableLangCodes = ["es-ES", "en-GB", "en-US", "it-IT", "fr-FR", "de-DE", "ru-RU"];
+        this.availableLanguages = ["spanish", "english", "british", "american", "italian", "french", "german", "russian"];
 
         if (this.availableLangCodes.includes(language)) {
             this.language = language;
@@ -41,31 +45,45 @@ class Keyboard {
             case "es-ES":
             case "spanish":
                 this.map = spanishMap;
+                this.langId = 'es';
                 break;
             case "en-GB":
             case "british":
+            case "english":
                 this.map = britishMap;
+                this.langId = 'en';
+                break;
+            case "en-US":
+            case "american":
+                this.map = americanMap;
+                this.langId = 'us';
                 break;
             case "it-IT":
             case "italian":
                 this.map = italianMap;
+                this.langId = 'it';
                 break;
             case "fr-FR":
             case "french":
                 this.map = frenchMap;
+                this.langId = 'fr';
                 break;
             case "de-DE":
             case "german":
                 this.map = germanMap;
+                this.langId = 'de';
                 break;
             case "ru-RU":
             case "russian":
                 this.map = russianMap;
+                this.langId = 'ru';
                 break;
         }
     }
 
     init() {
+        if (this.initReport.length !== 0) throw new Error('Keyboard already instantiated on current object');
+
         const initElement = document.getElementById(this.target);
         if (!initElement) throw new Error('Keyboard instantiated on an inexistent DOM Node');
 
@@ -126,6 +144,10 @@ class Keyboard {
             let rowPosition = 0;
             this.map[keyboardType].forEach((array) => {
                 let columnPosition = 0;
+                let shiftKeyCount = 1;
+                let controlKeyCount = 1;
+                let altKeyCount = 1;
+
                 array.forEach((el) => {
                     const newBtn = document.createElement('button');
                     newBtn.classList.add('keyboard__button');
@@ -138,16 +160,33 @@ class Keyboard {
                         newBtn.classList.add('keyboard__button--void');
                     } else if (/^[0-9]{1,3}$/.test(el)) {
                         newBtn.innerHTML = String.fromCharCode(el);
+                        newBtn.id = this.langId + '-' + keyboardType + '-' + el;
                         newBtn.classList.add('keyboard__button--standard');
                     } else if (/^\*/.test(el)) {
                         const trimmedEl = Number(el.replace("*", ""));
                         newBtn.innerHTML = String.fromCharCode(trimmedEl);
+                        newBtn.id = this.langId + '-' + keyboardType + '-' + el;
                         newBtn.classList.add('keyboard__button--standard');
                     } else {
                         newBtn.innerHTML = el;
                         if (/^\w{2,}$/.test(el)) {
                             newBtn.classList.add('keyboard__button--operation');
+                            if (el === "Shift") {
+                                newBtn.id = this.langId + '-' + keyboardType + '-' + el + '-' + shiftKeyCount;
+                                shiftKeyCount += 1;
+                            }
+                            else if (el === "Control") {
+                                newBtn.id = this.langId + '-' + keyboardType + '-' + el + '-' + controlKeyCount;
+                                controlKeyCount += 1;
+                            }
+                            else if (el === "Alt") {
+                                newBtn.id = this.langId + '-' + keyboardType + '-' + el + '-' + altKeyCount;
+                                altKeyCount += 1;
+                            } else {
+                                newBtn.id = this.langId + '-' + keyboardType + '-' + el;
+                            }
                         } else {
+                            newBtn.id = this.langId + '-' + keyboardType + '-' + el;
                             newBtn.classList.add('keyboard__button--standard');
                         }
                     }
@@ -184,13 +223,15 @@ class Keyboard {
                     if (btn.dataset.content === "" || btn.dataset.content === "null") {
                         action = null;
                     } else if (/^\*/.test(btn.dataset.content)) {
-                        btn.addEventListener('click', function() {
-                            this.writeAux(btn.innerHTML);
+                        const method = this.writeAux.bind(this);
+                        btn.addEventListener('click', () => {
+                            method(btn.innerHTML);
                         });
                         action = 'writeAux';
                     } else {
+                        const method = this.write.bind(this);
                         btn.addEventListener('click', function() {
-                            this.write(btn.innerHTML);
+                            method(btn.innerHTML);
                         });
                         action = 'write';
                     }
@@ -217,8 +258,9 @@ class Keyboard {
                         });
                         action = 'tabulate';
                     } else if (btn.dataset.content === "Backspace") {
+                        const method = this.delete.bind(this);
                         btn.addEventListener('click', function() {
-                            this.delete();
+                            method();
                         });
                         action = 'delete';
                     } else if (btn.dataset.content === "Enter") {
@@ -228,8 +270,9 @@ class Keyboard {
                         action = 'enter';
                     }
                     else if (btn.dataset.content === "Space") {
+                        const method = this.space.bind(this);
                         btn.addEventListener('click', function() {
-                            this.space();
+                            method();
                         });
                         action = 'space';
                     } else if (btn.dataset.content === "Control") {
@@ -240,11 +283,13 @@ class Keyboard {
                     }
                     break;
             }
-    
+
         }
 
-        return {button: btn, payload: btn.innerHTML, action: action, armed: true};
-    } 
+        const armReport = {button: btn, payload: btn.innerHTML, action: action, armed: true};
+        this.initReport.push(armReport);
+        return armReport;
+    }
 
     tabulate() {
         
@@ -266,16 +311,28 @@ class Keyboard {
         
     }
 
-    write() {
+    write(payload) {
+        if (this.graphModifier) {
+            this.input += "à";
+        } else {
+            this.input += payload;
+        }
 
+        this.graphModifier = null;
+
+        return true;
     }
 
-    writeAux() {
+    writeAux(payload) {
+       this.graphModifier = payload;
 
+       return true;
     }
 
     delete() {
+        this.input = this.input.substring(0, this.input.length-1);
 
+        return true;
     }
 
     enter() {
@@ -283,6 +340,12 @@ class Keyboard {
     }
 
     space() {
+        this.input += " ";
 
+        return true;
+    }
+
+    destroy() {
+        return true;
     }
 }

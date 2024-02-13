@@ -164,7 +164,12 @@ describe('keyboard.js', function() {
             expect(function() {initialization}).not.toThrow();
             expect(function() {keyboard2.init()}).toThrowError('Keyboard instantiated on an inexistent DOM Node');
         })
-        
+
+        it('should throw an error if called on a Keyboard instance that has already been initialized', function() {
+            expect(function() {keyboard.init()}).toThrowError('Keyboard already instantiated on current object');
+        })
+
+
         it('should append 5 children HTML elements to the element passed as 1st parameter upon instantiation', function() {
             expect(Array.from(mainTestDiv.children).length).toBe(5);
         })
@@ -424,12 +429,17 @@ describe('keyboard.js', function() {
             auxTestDiv.style.opacity = '0';
             document.body.appendChild(auxTestDiv);
             keyboard2 = new Keyboard('keyboard-wrapper', 'de-DE');
+
+            spyOn(keyboard, 'write');
+            spyOn(keyboard, 'writeAux');
+            spyOn(keyboard, 'delete');
+            spyOn(keyboard, 'space');
+
+            initialization = keyboard.init();
+            initialization2 = keyboard2.init();
         })
 
         beforeEach(() => {
-            initialization = keyboard.init();
-            initialization2 = keyboard2.init();
-
             button = document.createElement('button');
             button2 = document.createElement('button');
             button3 = document.createElement('button');
@@ -502,26 +512,59 @@ describe('keyboard.js', function() {
             expect(keyboard.arm(button11)).toEqual({button: button11, payload: "Control", action: 'control', armed: true});
         })
 
-        xit('should add an onclick event listener to every button', function() {
-            button.classList.add('keyboard__button--standard');
-            keyboard.arm(button);
-            const action = button.getEventListeners();
+        it('should add an onclick event listener to every button', function() {
+            const testBtn = document.getElementById('fr-normal-116'); // lowercase t
+            const testBtn2 = document.getElementById('fr-normal-101'); // lowercase e
+            const testBtn3 = document.getElementById('fr-normal-115'); // lowercase s
+            const testBtn4 = document.getElementById('fr-normal-116'); // lowercase t
+            const testBtn5 = document.getElementById('fr-normal-Backspace'); // delete
+            const testBtn6 = document.getElementById('fr-normal-Space'); // space
+            const testBtn7 = document.getElementById('fr-capitalized-72'); // uppercase h
+            const testBtn8 = document.getElementById('fr-normal-*94'); // ^ symbol
+            const testBtn9 = document.getElementById('fr-normal-97'); // lowercase a
+
+            const testBtns = [testBtn, testBtn2, testBtn3, testBtn4, testBtn5, testBtn6, 
+                testBtn7, testBtn8, testBtn9];
+
+            testBtns.forEach(btn => btn.click());
+
+            expect(keyboard.write).toHaveBeenCalled();
+            expect(keyboard.write).toHaveBeenCalledTimes(6);
+            expect(keyboard.write).toHaveBeenCalledWith("t");
+            expect(keyboard.write).toHaveBeenCalledWith("e");
+            expect(keyboard.write).toHaveBeenCalledWith("s");
+            expect(keyboard.write).toHaveBeenCalledWith("H");
+            expect(keyboard.write).toHaveBeenCalledWith("a");
+
+            expect(keyboard.delete).toHaveBeenCalled();
+            expect(keyboard.delete).toHaveBeenCalledTimes(1);
             
-            expect(action).toBeTruthy();
+            expect(keyboard.space).toHaveBeenCalled();
+            expect(keyboard.space).toHaveBeenCalledTimes(1);
+            
+            expect(keyboard.writeAux).toHaveBeenCalled();
+            expect(keyboard.writeAux).toHaveBeenCalledTimes(1);
+            expect(keyboard.writeAux).toHaveBeenCalledWith("^");
         })
 
-        xit('should add 1 new object entry to the init report', function() {
-
+        it('should add 1 new object entry to the init report', function() {
+            expect(keyboard.armedBtns).toBe(keyboard.initReport.length);
+            expect(keyboard2.armedBtns).toBe(keyboard2.initReport.length);
         })
 
-        xit('should return 1 object confirming completion of arming process', function() {
-
+        it('should return 1 object confirming completion of arming process', function() {
+            button2.classList.add('keyboard__button--standard');
+            button2.dataset.content = "114";
+            button2.innerHTML = "r";
+            button3.classList.add('keyboard__button--standard');
+            button3.dataset.content = "43";
+            button3.innerHTML = "+";
+            
+            expect(keyboard.arm(button2)).toEqual({button: button2, payload: "r", action: 'write', armed: true});
+            expect(keyboard.arm(button3)).toEqual({button: button3, payload: "+", action: 'write', armed: true});
         })
 
         afterEach(() => {
-            initialization = null;
-            initialization2 = null;
-
             button = null;
             button2 = null;
             button3 = null;
@@ -534,14 +577,37 @@ describe('keyboard.js', function() {
             auxTestDiv = null;
             keyboard = null;
             keyboard2 = null;
+            initialization = null;
+            initialization2 = null;
         })
     })
 
-    describe('destroy() method', function() {
-        xit('should remove a previously initialized keyboard from the DOM', function() {
-
+    /* describe('destroy() method', function() {
+        beforeAll(() => {
+            mainTestDiv = document.createElement('div');
+            mainTestDiv.setAttribute('id', 'main-element');
+            mainTestDiv.style.opacity = '0';
+            document.body.appendChild(mainTestDiv);
+            keyboard = new Keyboard('main-element', 'it-IT');
         })
-    })
+
+        beforeEach(() => {
+            keyboard.init();
+        })
+
+        it('should remove a previously initialized keyboard from the DOM', function() {
+            expect(document.getElementById('main-element')).toBeUndefined();
+        })
+
+        xit('should remove a previously initialized keyboard instance', function() {
+            // expect(keyboard).toBeNull();
+        })
+
+        afterAll(() => {
+            mainTestDiv = null;
+            keyboard = null;
+        })
+    }) */
 
     /* xdescribe('tabulate()', function() {
 

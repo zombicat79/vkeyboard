@@ -33,96 +33,96 @@ const spanishMap = {
 const britishMap = {
     language: 'en-GB',
     normal: [
-        [],
-        [],
-        [],
-        [],
-        []
+        ["*96", 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 45, 61, "Backspace"],
+        ["Tab", 113, 119, 101, 114, 116, 121, 117, 105, 111, 112, 91, 93, 35],
+        ["Caps", 97, 115, 100, 102, 103, 104, 106, 107, 108, 59, 39, "Enter"],
+        ["Shift", 92, 122, 120, 99, 118, 98, 110, 109, 44, 46, 47, "Shift"],
+        ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ],
     capitalized: [
-        [],
-        [],
-        [],
-        [],
-        []
+        ["*96", 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 45, 61, "Backspace"],
+        ["Tab", 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 91, 93, 35],
+        ["Caps", 65, 83, 68, 70, 71, 72, 74, 75, 76, 59, 39, "Enter"],
+        ["Shift", 92, 90, 88, 67, 86, 66, 78, 77, 44, 46, 47, "Shift"],
+        ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ],
     shifted: [
-        [],
-        [],
-        [],
-        [],
-        []
+        [172, 33, 34, 163, 36, 37, "*94", "&amp;", 42, 40, 41, 95, 43, "Backspace"],
+        ["Tab", 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 123, 125, 126],
+        ["Caps", 65, 83, 68, 70, 71, 72, 74, 75, 76, 58, 64, "Enter"],
+        ["Shift", 124, 90, 88, 67, 86, 66, 78, 77, "&lt;", "&gt;", 63, "Shift"],
+        ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ],
     alternated: [
-        [],
-        [],
-        [],
-        [],
-        []
+        [166, null, null, null, 128, null, null, null, null, null, null, null, null, "Backspace"],
+        ["Tab", null, null, 233, null, null, null, 250, 237, 243, null, null, null, null],
+        ["Caps", 225, null, null, null, null, null, null, null, null, null, null, "Enter"],
+        ["Shift", null, null, null, null, null, null, null, null, null, null, null, "Shift"],
+        ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ]
 };
 
 const americanMap = {
     language: 'en-US',
     normal: [
-        [],
-        [],
-        [],
-        [],
-        []
+        ["*96", 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 45, 61, "Backspace"],
+        ["Tab", 113, 119, 101, 114, 116, 121, 117, 105, 111, 112, 91, 93, 92],
+        ["Caps", 97, 115, 100, 102, 103, 104, 106, 107, 108, 59, 39, "Enter"],
+        ["Shift", 122, 120, 99, 118, 98, 110, 109, 44, 46, 47, "Shift"],
+        ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ],
     capitalized: [
-        [],
-        [],
-        [],
-        [],
-        []
+        ["*96", 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 45, 61, "Backspace"],
+        ["Tab", 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 91, 93, 92],
+        ["Caps", 65, 83, 68, 70, 71, 72, 74, 75, 76, 59, 39, "Enter"],
+        ["Shift", 90, 88, 67, 86, 66, 78, 77, 44, 46, 47, "Shift"],
+        ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ],
     shifted: [
-        [],
-        [],
-        [],
-        [],
-        []
+        [126, 33, 64, 35, 36, 37, "*94", "&amp;", 42, 40, 41, 45, 43, "Backspace"],
+        ["Tab", 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 123, 125, 124],
+        ["Caps", 65, 83, 68, 70, 71, 72, 74, 75, 76, 58, 34, "Enter"],
+        ["Shift", 90, 88, 67, 86, 66, 78, 77, "&lt;", "&gt;", 63, "Shift"],
+        ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ],
     alternated: [
-        [],
-        [],
-        [],
-        [],
-        []
+        [null, 161, 178, 179, 164, 128, 188, 189, 190, 145, 146, 165, 215, "Backspace"],
+        ["Tab", 228, 229, 233, 174, 254, 252, 250, 237, 243, 246, 171, 187, 172],
+        ["Caps", 225, 223, 240, null, null, null, null, null, 248, 182, "*180", "Enter"],
+        ["Shift", 230, null, 169, null, null, 241, 181, 231, null, 191, "Shift"],
+        ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ]
 };
 
 const italianMap = {
     language: 'it-IT',
     normal: [
-        [],
-        [],
-        [],
-        [],
-        []
+        [92, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 39, 236, "Backspace"],
+        ["Tab", 113, 119, 101, 114, 116, 121, 117, 105, 111, 112, 232, 43, 249],
+        ["Caps", 97, 115, 100, 102, 103, 104, 106, 107, 108, 242, 224, "Enter"],
+        ["Shift", "&lt;", 122, 120, 99, 118, 98, 110, 109, 44, 46, 45, "Shift"],
+        ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ],
     capitalized: [
-        [],
-        [],
-        [],
-        [],
-        []
+        [92, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 39, 204, "Backspace"],
+        ["Tab", 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 200, 43, 217],
+        ["Caps", 65, 83, 68, 70, 71, 72, 74, 75, 76, 210, 192, "Enter"],
+        ["Shift", "&lt;", 90, 88, 67, 86, 66, 78, 77, 44, 46, 45, "Shift"],
+        ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ],
     shifted: [
-        [],
-        [],
-        [],
-        [],
-        []
+        [124, 33, 34, 163, 36, 37, "&amp;", 47, 40, 41, 61, 63, 237, "Backspace"],
+        ["Tab", 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 233, 42, 250],
+        ["Caps", 65, 83, 68, 70, 71, 72, 74, 75, 76, 231, 243, "Enter"],
+        ["Shift", "&gt;", 90, 88, 67, 86, 66, 78, 77, 59, 58, 95, "Shift"],
+        ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ],
     alternated: [
-        [],
-        [],
-        [],
-        [],
-        []
+        [null, null, null, null, null, null, null, null, null, null, null, "*94", 206, "Backspace"],
+        ["Tab", null, null, 128, null, null, null, null, null, null, null, 91, 93, 167],
+        ["Caps", null, null, null, null, null, null, null, null, null, 64, 35, "Enter"],
+        ["Shift", null, null, null, null, null, null, null, null, 171, 187, 176, "Shift"],
+        ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ]
 };
 
