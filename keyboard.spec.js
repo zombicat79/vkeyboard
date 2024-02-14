@@ -117,16 +117,16 @@ describe('keyboard.js', function() {
             expect(keyboard.alternate()).toBeNull();
         })
     
-        xit('should have a delete() method', function() {
-            expect(keyboard.delete()).toBeNull();
+        it('should have a delete() method', function() {
+            expect(keyboard.delete()).not.toBeUndefined();
         })
     
         xit('should have an enter() method', function() {
             expect(keyboard.enter()).toBeNull();
         })
     
-        xit('should have a space() method', function() {
-            expect(keyboard.space()).toBeNull();
+        it('should have a space() method', function() {
+            expect(keyboard.space()).not.toBeUndefined();
         })
 
         afterEach(() => {
@@ -631,17 +631,91 @@ describe('keyboard.js', function() {
 
     xdescribe('write()', function() {
 
+    }) */
+
+    describe('delete()', function() {
+        beforeEach(() => {
+            keyboard = new Keyboard('inexistent-element', 'en-US');
+            keyboard2 = new Keyboard('inexistent-element', 'german');
+        })
+
+        it('should remove the last character in the keyboard output string', function() {
+            keyboard.output = 'Hardcore';
+            for (let i=0; i<5; i++) {
+                keyboard.delete();
+            }
+
+            keyboard2.output = 'Trying my best';
+            keyboard2.delete();
+            keyboard2.delete();
+
+            expect(keyboard.output).toBe('Har');
+            expect(keyboard2.output).toBe('Trying my be');
+        })
+
+        it('should do nothing if the current output string was already empty', function() {
+            keyboard.delete();
+
+            keyboard2.output = "T";
+            keyboard2.delete();
+            keyboard2.delete();
+
+            expect(keyboard.output).toBe("");
+            expect(keyboard2.output).toBe("");
+        })
+
+        it('should return the resultant current keyboard output string', function() {
+            keyboard.output = 'Seven eleven';
+            const outputResult = keyboard.delete();
+
+            keyboard2.output = 'Stranded in space';
+            const outputResult2 = keyboard2.delete();
+
+            expect(outputResult).toBe('Seven eleve');
+            expect(outputResult2).toBe('Stranded in spac');
+        })
+
+        afterEach(() => {
+            keyboard = null;
+            keyboard2 = null;
+        })
     })
 
-    xdescribe('delete()', function() {
-
-    })
-
-    xdescribe('enter()', function() {
-
-    })
-
-    xdescribe('space()', function() {
+    /* xdescribe('enter()', function() {
 
     }) */
+
+    describe('space()', function() {
+        beforeEach(() => {
+            keyboard = new Keyboard('inexistent-element', 'ru-RU');
+            keyboard2 = new Keyboard('inexistent-element', 'italian');
+        })
+
+        it('should add an empty space to the end of keyboard output string', function() {
+            keyboard.output = 'hello';
+            keyboard.space();
+
+            keyboard2.output = 'this is a test';
+            keyboard2.space();
+
+            expect(keyboard.output).toBe('hello ');
+            expect(keyboard2.output).toBe('this is a test ');
+        })
+
+        it('should return the resultant current keyboard output string', function() {
+            keyboard.output = 'flowers in the garden';
+            const outputResult = keyboard.space();
+
+            keyboard2.output = 'wild lion';
+            const outputResult2 = keyboard2.space();
+
+            expect(outputResult).toBe('flowers in the garden ');
+            expect(outputResult2).toBe('wild lion ');
+        })
+
+        afterEach(() => {
+            keyboard = null;
+            keyboard2 = null;
+        })
+    })
 })

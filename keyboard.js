@@ -25,7 +25,7 @@ class Keyboard {
         this.langId = null;
         this.map = null;
         this.armedBtns = 0;
-        this.input = "";
+        this.output = "";
         this.graphModifier = null;
         this.initReport = [];
 
@@ -313,9 +313,9 @@ class Keyboard {
 
     write(payload) {
         if (this.graphModifier) {
-            this.input += "à";
+            this.output += "à";
         } else {
-            this.input += payload;
+            this.output += payload;
         }
 
         this.graphModifier = null;
@@ -330,9 +330,11 @@ class Keyboard {
     }
 
     delete() {
-        this.input = this.input.substring(0, this.input.length-1);
+        if (this.output !== "") {
+            this.output = this.output.substring(0, this.output.length-1);
+        }
 
-        return true;
+        return this.output;
     }
 
     enter() {
@@ -340,9 +342,9 @@ class Keyboard {
     }
 
     space() {
-        this.input += " ";
+        this.output += " ";
 
-        return true;
+        return this.output;
     }
 
     destroy() {
