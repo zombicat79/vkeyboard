@@ -97,6 +97,14 @@ describe('keyboard.js', function() {
             expect(keyboard.arm(button)).toBeTruthy();
         })
 
+        xit('should have a write() method', function() {
+            expect(keyboard.write()).toBeNull();
+        })
+
+        it('should have a writeAux() method', function() {
+            expect(keyboard.writeAux('^')).not.toBeUndefined();
+        })
+
         xit('should have a destroy() method', function() {
             expect(keyboard.tabulate()).toBeNull();
         })
@@ -627,11 +635,136 @@ describe('keyboard.js', function() {
 
     xdescribe('alternate()', function() {
 
+    }) */
+
+    describe('write()', function() {
+        beforeEach(() => {
+            keyboard = new Keyboard('inexistent-element', 'fr-FR');
+            keyboard2 = new Keyboard('inexistent-element', 'spanish');
+        })
+
+        it('should add normal characters to the end of the current output string', function() {
+            keyboard.output = 'Live your life';
+            keyboard2.output = 'The world is mine';
+
+            keyboard.write('t');
+            keyboard.write('e');
+            keyboard.write('s');
+            keyboard.write('t');
+
+            for (let i=0; i<3; i++) {
+                keyboard2.write('!');
+            }
+
+            expect(keyboard.output).toBe('Live your lifetest');
+            expect(keyboard2.output).toBe('The world is mine!!!');
+        })
+
+        it('should add modified characters to the end of the current output string, in case there is a graph modifier in place', function() {
+            keyboard.output = 't';
+            keyboard.graphModifier = '^';
+            
+            keyboard2.output = 'emoci';
+            keyboard2.graphModifier = '´';
+
+            keyboard3 = new Keyboard('whatever-element', 'german');
+            keyboard3.output = 'op';
+            keyboard3.graphModifier = '`';
+
+            keyboard.write('o');
+            keyboard.write('t');
+            keyboard2.write('o');
+            keyboard2.write('n');
+            keyboard3.write('A');
+
+            expect(keyboard.output).toBe('tôt');
+            expect(keyboard2.output).toBe('emoción');
+            expect(keyboard3.output).toBe('opÀ');
+        })
+
+        it('should do nothing if the caracter to be modified by the graph modifier is not a vowel', function() {
+            keyboard.output = 't';
+            keyboard.graphModifier = '^';
+            
+            keyboard2.output = 'emoci';
+            keyboard2.graphModifier = '´';
+
+            keyboard.write('s');
+            keyboard2.write('p');
+
+            expect(keyboard.output).not.toBe('ts')
+            expect(keyboard2.output).not.toBe('emocip')
+        })
+
+        it('should clean up any existing graph modifier after output string modification', function() {
+            keyboard.output = 'fr';
+            keyboard.graphModifier = '`';
+
+            keyboard2.output = 'g';
+            keyboard2.graphModifier = '¨';
+
+            keyboard.write('e');
+            keyboard2.write('u');
+
+            expect(keyboard.graphModifier).toBeNull();
+            expect(keyboard2.graphModifier).toBeNull();
+        })
+
+        it('should return the resultant current keyboard output string', function() {
+            keyboard.output = 'Bien sû';
+            keyboard2.output = 'Todo bie';
+
+            const outputResult = keyboard.write('r');
+            const outputResult2 = keyboard2.write('n');
+
+            expect(outputResult).toBe('Bien sûr');
+            expect(outputResult2).toBe('Todo bien');
+        })
+
+        afterEach(() => {
+            keyboard = null;
+            keyboard2 = null;
+        })
     })
 
-    xdescribe('write()', function() {
+    describe('writeAux()', function() {
+        beforeEach(() => {
+            keyboard = new Keyboard('inexistent-element', 'es-ES');
+            keyboard2 = new Keyboard('inexistent-element', 'french');
+        })
 
-    }) */
+        it('should make sure there is no previously set graph modifier when called', function() {
+            keyboard.graphModifier = '^';
+            keyboard2.graphModifier = '¨';
+            
+            keyboard.writeAux('´');
+            keyboard2.writeAux('`');
+            
+            expect(keyboard.graphModifier).not.toBe('´');
+            expect(keyboard2.graphModifier).not.toBe('`');
+        })
+        
+        it('should set the keyboard graph modifier with an input symbol', function() {
+            keyboard.writeAux('^');
+            keyboard2.writeAux('¨');
+
+            expect(keyboard.graphModifier).toBe('^');
+            expect(keyboard2.graphModifier).toBe('¨');
+        })
+
+        it('should return the symbol activated as current graph modifier', function() {
+            const update = keyboard.writeAux('^');
+            const update2 = keyboard2.writeAux('¨');
+
+            expect(update).toBe('^');
+            expect(update2).toBe('¨')
+        })
+
+        afterEach(() => {
+            keyboard = null;
+            keyboard2 = null;
+        })
+    })
 
     describe('delete()', function() {
         beforeEach(() => {

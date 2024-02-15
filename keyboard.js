@@ -1,4 +1,26 @@
+/* GLOBAL HELPER FUNCTIONS */
+
+function composeChar(character, modifierIndex) {
+    const specialChars = {
+        a: ['à', 'á', 'â', 'ä'],
+        e: ['è', 'é', 'ê', 'ë'],
+        i: ['ì', 'í', 'î', 'ï'],
+        o: ['ò', 'ó', 'ô', 'ö'],
+        u: ['ù', 'ú', 'û', 'ü'],
+        A: ['À', 'Á', 'Â', 'Ä'],
+        E: ['È', 'É', 'Ê', 'Ë'],
+        I: ['Ì', 'Í', 'Î', 'Ï'],
+        O: ['Ò', 'Ó', 'Ô', 'Ö'],
+        U: ['Ù', 'Ú', 'Û', 'Ü']
+    }
+
+    return specialChars[character][modifierIndex];
+}
+
+
 /*
+    KEYBOARD CLASS
+
     Creates an instance of a multilanguage virtual keyboard
 
     @param1 - string - id attribute of the HTML element on which the keyboard will be instantiated
@@ -313,20 +335,41 @@ class Keyboard {
 
     write(payload) {
         if (this.graphModifier) {
-            this.output += "à";
+            const allowedPayload = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
+            if (allowedPayload.includes(payload)) {
+                let processedChar = "";
+                switch(this.graphModifier) {
+                    case '`':
+                        processedChar = composeChar(payload, 0);
+                        break;
+                    case '´':
+                        processedChar = composeChar(payload, 1);
+                        break;
+                    case '^':
+                        processedChar = composeChar(payload, 2);
+                        break;
+                    case '¨':
+                        processedChar = composeChar(payload, 3);
+                        break;
+                }
+                this.output += processedChar; 
+            }
         } else {
             this.output += payload;
         }
 
         this.graphModifier = null;
 
-        return true;
+        return this.output;
     }
 
     writeAux(payload) {
-       this.graphModifier = payload;
+        if (this.graphModifier !== null) {
+            return;
+        }
+        this.graphModifier = payload;
 
-       return true;
+        return this.graphModifier;
     }
 
     delete() {
