@@ -97,8 +97,8 @@ describe('keyboard.js', function() {
             expect(keyboard.arm(button)).toBeTruthy();
         })
 
-        xit('should have a write() method', function() {
-            expect(keyboard.write()).toBeNull();
+        it('should have a write() method', function() {
+            expect(keyboard.write('A')).not.toBeUndefined();
         })
 
         it('should have a writeAux() method', function() {
@@ -109,12 +109,12 @@ describe('keyboard.js', function() {
             expect(keyboard.tabulate()).toBeNull();
         })
         
-        xit('should have a tabulate() method', function() {
-            expect(keyboard.tabulate()).toBeNull();
+        it('should have a tabulate() method', function() {
+            expect(keyboard.tabulate()).not.toBeUndefined();
         })
     
-        xit('should have a capitalize() method', function() {
-            expect(keyboard.capitalize()).toBeNull();
+        it('should have a capitalize() method', function() {
+            expect(keyboard.capitalize()).not.toBeUndefined();
         })
     
         xit('should have a shift() method', function() {
@@ -129,8 +129,8 @@ describe('keyboard.js', function() {
             expect(keyboard.delete()).not.toBeUndefined();
         })
     
-        xit('should have an enter() method', function() {
-            expect(keyboard.enter()).toBeNull();
+        it('should have an enter() method', function() {
+            expect(keyboard.enter()).not.toBeUndefined();
         })
     
         it('should have a space() method', function() {
@@ -617,15 +617,106 @@ describe('keyboard.js', function() {
         })
     }) */
 
-    /* xdescribe('tabulate()', function() {
+    describe('tabulate()', function() {
+        beforeEach(() => {
+            keyboard = new Keyboard('inexistent-element', 'de-DE');
+            keyboard2 = new Keyboard('inexistent-element', 'russian');
+        })
 
+        it('should add tabulation space at the end of the existing output string', function() {
+            keyboard.output = 'Global village';
+
+            keyboard.tabulate();
+            keyboard2.tabulate();
+
+            expect(keyboard.output).toBe('Global village\t');
+            expect(keyboard2.output).toBe('\t');
+        })
+
+        it('should return the resultant current keyboard output string', function() {
+            keyboard.output = 'Wonders';
+            keyboard2.output = 'Ski resort';
+
+            const outputResult = keyboard.tabulate();
+            const outputResult2 = keyboard2.tabulate();
+
+            expect(outputResult).toBe('Wonders\t');
+            expect(outputResult2).toBe('Ski resort\t');
+        })
+
+        afterEach(() => {
+            keyboard = null;
+            keyboard2 = null;
+        })
     })
 
-    xdescribe('capitalize()', function() {
+    describe('capitalize()', function() {
+        let normalKeyboard;
+        let capsKeyboard;
+        let shiftKeyboard;
+        let altKeyboard;
 
+        beforeAll(() => {
+            mainTestDiv = document.createElement('div');
+            mainTestDiv.setAttribute('id', 'main-element');
+            mainTestDiv.style.opacity = '0';
+            document.body.appendChild(mainTestDiv);
+        })
+
+        beforeEach(() => {
+            keyboard = new Keyboard('main-element', 'es-ES');
+            keyboard.init();
+
+            normalKeyboard = document.querySelector('#main-element .keyboard--normal');
+            capsKeyboard = document.querySelector('#main-element .keyboard--capitalized');
+            shiftKeyboard = document.querySelector('#main-element .keyboard--shifted');
+            altKeyboard = document.querySelector('#main-element .keyboard--alternated');
+        })
+
+        it('should change the activeLayer value to "capitalized"', function() {
+            keyboard.capitalize();
+            
+            expect(keyboard.activeLayer).toBe('capitalized');
+        })
+
+        it('should hide all keyboards except the "capitalized" version', function() {
+            keyboard.capitalize();
+
+            expect(normalKeyboard.classList.contains('show')).toBeFalse();
+            expect(normalKeyboard.classList.contains('hide')).toBeTrue();
+            expect(capsKeyboard.classList.contains('show')).toBeTrue();
+            expect(capsKeyboard.classList.contains('hide')).toBeFalse();
+            expect(shiftKeyboard.classList.contains('show')).toBeFalse();
+            expect(shiftKeyboard.classList.contains('hide')).toBeTrue();
+            expect(altKeyboard.classList.contains('show')).toBeFalse();
+            expect(altKeyboard.classList.contains('hide')).toBeTrue();
+        })
+
+        it('should show the "normal" keyboard version if current activeLayer is "capitalized', function() {
+            keyboard.activeLayer = 'capitalized';
+            keyboard.capitalize();
+
+            expect(normalKeyboard.classList.contains('show')).toBeTrue();
+            expect(normalKeyboard.classList.contains('hide')).toBeFalse();
+            expect(capsKeyboard.classList.contains('show')).toBeFalse();
+            expect(capsKeyboard.classList.contains('hide')).toBeTrue();
+            expect(shiftKeyboard.classList.contains('show')).toBeFalse();
+            expect(shiftKeyboard.classList.contains('hide')).toBeTrue();
+            expect(altKeyboard.classList.contains('show')).toBeFalse();
+            expect(altKeyboard.classList.contains('hide')).toBeTrue();
+        })
+
+        afterEach(() => {
+            keyboard = null;
+        })
+
+        afterAll(() => {
+            mainTestDiv.remove();
+            mainTestDiv = null;
+        })
     })
 
-    xdescribe('shift()', function() {
+    /* xdescribe('shift()', function() {
 
     })
 
@@ -814,9 +905,39 @@ describe('keyboard.js', function() {
         })
     })
 
-    /* xdescribe('enter()', function() {
+    describe('enter()', function() {
+        beforeEach(() => {
+            keyboard = new Keyboard('inexistent-element', 'es-GB');
+            keyboard2 = new Keyboard('inexistent-element', 'american');
+        })
 
-    }) */
+        it('should add a new line to the end of the existing keyboard output string', function() {
+            keyboard.output = 'The sky is blue';
+            keyboard2.output = 'Here we go again!';
+
+            keyboard.enter();
+            keyboard2.enter();
+
+            expect(keyboard.output).toBe('The sky is blue\n');
+            expect(keyboard2.output).toBe('Here we go again!\n');
+        })
+
+        it('should return the resultant current keyboard output string', function() {
+            keyboard.output = 'Explanation of nothing';
+            keyboard2.output = 'Trying my best';
+
+            const outputResult = keyboard.enter();
+            const outputResult2 = keyboard2.enter();
+
+            expect(outputResult).toBe('Explanation of nothing\n');
+            expect(outputResult2).toBe('Trying my best\n');
+        })
+
+        afterEach(() => {
+            keyboard = null;
+            keyboard2 = null;
+        })
+    })
 
     describe('space()', function() {
         beforeEach(() => {

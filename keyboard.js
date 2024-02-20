@@ -46,6 +46,7 @@ class Keyboard {
         this.language = null;
         this.langId = null;
         this.map = null;
+        this.activeLayer = 'normal';
         this.armedBtns = 0;
         this.output = "";
         this.graphModifier = null;
@@ -314,7 +315,9 @@ class Keyboard {
     }
 
     tabulate() {
-        
+        this.output += '\t';
+
+        return this.output;
     }
 
     capitalize() {
@@ -381,7 +384,9 @@ class Keyboard {
     }
 
     enter() {
+        this.output += '\n';
 
+        return this.output;
     }
 
     space() {
@@ -391,6 +396,6 @@ class Keyboard {
     }
 
     destroy() {
-        return true;
+        
     }
 }
