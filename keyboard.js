@@ -321,7 +321,10 @@ class Keyboard {
     }
 
     capitalize() {
+        this.activeLayer === 'capitalized' ? this.activeLayer = 'normal' : this.activeLayer = 'capitalized';
         
+        this.manageLayers(this.activeLayer);
+        return true;
     }
 
     shift() {
@@ -334,6 +337,60 @@ class Keyboard {
 
     alternate() {
         
+    }
+
+    manageLayers(layerToShow) {
+        const keyboardLayers = Array.from(document.getElementById(this.target).children);
+        let deactivatedLayers;
+        switch(layerToShow) {
+            case 'normal':
+                deactivatedLayers = keyboardLayers.map((layer) => {
+                    if (layer.classList.contains('keyboard--normal')) {
+                        layer.classList.remove('hide');
+                        layer.classList.add('show');
+                    } else {
+                        return layer;
+                    }
+                })
+                break;
+            case 'capitalized':
+                deactivatedLayers = keyboardLayers.map((layer) => {
+                    if (layer.classList.contains('keyboard--capitalized')) {
+                        layer.classList.remove('hide');
+                        layer.classList.add('show');
+                    } else {
+                        return layer;
+                    }
+                })
+                break;
+            case 'shifted':
+                deactivatedLayers = keyboardLayers.map((layer) => {
+                    if (layer.classList.contains('keyboard--shifted')) {
+                        layer.classList.remove('hide');
+                        layer.classList.add('show');
+                    } else {
+                        return layer;
+                    }
+                })
+                break;
+            case 'alternated':
+                deactivatedLayers = keyboardLayers.map((layer) => {
+                    if (layer.classList.contains('keyboard--alternated')) {
+                        layer.classList.remove('hide');
+                        layer.classList.add('show');
+                    } else {
+                        return layer;
+                    }
+                })
+                break;
+        }
+
+        deactivatedLayers.forEach((layer) => {
+            if (layer) {
+                layer.classList.remove('show');
+                layer.classList.add('hide');
+            }
+        });
     }
 
     write(payload) {

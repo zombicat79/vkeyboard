@@ -1,4 +1,4 @@
-describe('keyboard.js', function() {
+describe('KEYBOARD.JS', function() {
     let keyboard;
     let keyboard2;
     let keyboard3;
@@ -8,6 +8,11 @@ describe('keyboard.js', function() {
 
     let mainTestDiv;
     let auxTestDiv;
+
+    let normalKeyboard;
+    let capsKeyboard;
+    let shiftKeyboard;
+    let altKeyboard;
 
     describe('Keyboard', function() {
         beforeAll(() => {
@@ -114,7 +119,7 @@ describe('keyboard.js', function() {
         })
     
         it('should have a capitalize() method', function() {
-            expect(keyboard.capitalize()).not.toBeUndefined();
+            expect(keyboard.capitalize()).toBeTrue();
         })
     
         xit('should have a shift() method', function() {
@@ -651,11 +656,6 @@ describe('keyboard.js', function() {
     })
 
     describe('capitalize()', function() {
-        let normalKeyboard;
-        let capsKeyboard;
-        let shiftKeyboard;
-        let altKeyboard;
-
         beforeAll(() => {
             mainTestDiv = document.createElement('div');
             mainTestDiv.setAttribute('id', 'main-element');
@@ -667,10 +667,7 @@ describe('keyboard.js', function() {
             keyboard = new Keyboard('main-element', 'es-ES');
             keyboard.init();
 
-            normalKeyboard = document.querySelector('#main-element .keyboard--normal');
-            capsKeyboard = document.querySelector('#main-element .keyboard--capitalized');
-            shiftKeyboard = document.querySelector('#main-element .keyboard--shifted');
-            altKeyboard = document.querySelector('#main-element .keyboard--alternated');
+            spyOn(keyboard, 'manageLayers');
         })
 
         it('should change the activeLayer value to "capitalized"', function() {
@@ -679,31 +676,21 @@ describe('keyboard.js', function() {
             expect(keyboard.activeLayer).toBe('capitalized');
         })
 
-        it('should hide all keyboards except the "capitalized" version', function() {
+        it('should call the "manageLayers()" method passing "capitalized" as its argument', function() {
             keyboard.capitalize();
 
-            expect(normalKeyboard.classList.contains('show')).toBeFalse();
-            expect(normalKeyboard.classList.contains('hide')).toBeTrue();
-            expect(capsKeyboard.classList.contains('show')).toBeTrue();
-            expect(capsKeyboard.classList.contains('hide')).toBeFalse();
-            expect(shiftKeyboard.classList.contains('show')).toBeFalse();
-            expect(shiftKeyboard.classList.contains('hide')).toBeTrue();
-            expect(altKeyboard.classList.contains('show')).toBeFalse();
-            expect(altKeyboard.classList.contains('hide')).toBeTrue();
+            expect(keyboard.manageLayers).toHaveBeenCalled();
+            expect(keyboard.manageLayers).toHaveBeenCalledTimes(1);
+            expect(keyboard.manageLayers).toHaveBeenCalledWith('capitalized');
         })
 
-        it('should show the "normal" keyboard version if current activeLayer is "capitalized', function() {
+        it('should call the "manageLayers()" method passing "normal" as its argument if the activeLayer is already "capitalized"', function() {
             keyboard.activeLayer = 'capitalized';
             keyboard.capitalize();
 
-            expect(normalKeyboard.classList.contains('show')).toBeTrue();
-            expect(normalKeyboard.classList.contains('hide')).toBeFalse();
-            expect(capsKeyboard.classList.contains('show')).toBeFalse();
-            expect(capsKeyboard.classList.contains('hide')).toBeTrue();
-            expect(shiftKeyboard.classList.contains('show')).toBeFalse();
-            expect(shiftKeyboard.classList.contains('hide')).toBeTrue();
-            expect(altKeyboard.classList.contains('show')).toBeFalse();
-            expect(altKeyboard.classList.contains('hide')).toBeTrue();
+            expect(keyboard.manageLayers).toHaveBeenCalled();
+            expect(keyboard.manageLayers).toHaveBeenCalledTimes(1);
+            expect(keyboard.manageLayers).toHaveBeenCalledWith('normal');
         })
 
         afterEach(() => {
@@ -970,6 +957,91 @@ describe('keyboard.js', function() {
         afterEach(() => {
             keyboard = null;
             keyboard2 = null;
+        })
+    })
+
+    describe('AUXILIARY METHODS', function() {
+        describe('manageLayers() method', function() {
+            beforeAll(() => {
+                mainTestDiv = document.createElement('div');
+                mainTestDiv.setAttribute('id', 'main-element');
+                mainTestDiv.style.opacity = '0';
+                document.body.appendChild(mainTestDiv);
+            })
+    
+            beforeEach(() => {
+                keyboard = new Keyboard('main-element', 'es-ES');
+                keyboard.init();
+
+                keyboard.activeLayer = '';
+    
+                normalKeyboard = document.querySelector('#main-element .keyboard--normal');
+                capsKeyboard = document.querySelector('#main-element .keyboard--capitalized');
+                shiftKeyboard = document.querySelector('#main-element .keyboard--shifted');
+                altKeyboard = document.querySelector('#main-element .keyboard--alternated');
+            })
+
+            it('should hide all keyboards except the "normal" version if called with "normal"', function() {
+                keyboard.manageLayers('shifted');
+                keyboard.manageLayers('normal');
+    
+                expect(normalKeyboard.classList.contains('show')).toBeTrue();
+                expect(normalKeyboard.classList.contains('hide')).toBeFalse();
+                expect(capsKeyboard.classList.contains('show')).toBeFalse();
+                expect(capsKeyboard.classList.contains('hide')).toBeTrue();
+                expect(shiftKeyboard.classList.contains('show')).toBeFalse();
+                expect(shiftKeyboard.classList.contains('hide')).toBeTrue();
+                expect(altKeyboard.classList.contains('show')).toBeFalse();
+                expect(altKeyboard.classList.contains('hide')).toBeTrue();
+            })
+
+            it('should hide all keyboards except the "capitalized" version if called with "capitalized"', function() {
+                keyboard.manageLayers('capitalized');
+    
+                expect(normalKeyboard.classList.contains('show')).toBeFalse();
+                expect(normalKeyboard.classList.contains('hide')).toBeTrue();
+                expect(capsKeyboard.classList.contains('show')).toBeTrue();
+                expect(capsKeyboard.classList.contains('hide')).toBeFalse();
+                expect(shiftKeyboard.classList.contains('show')).toBeFalse();
+                expect(shiftKeyboard.classList.contains('hide')).toBeTrue();
+                expect(altKeyboard.classList.contains('show')).toBeFalse();
+                expect(altKeyboard.classList.contains('hide')).toBeTrue();
+            })
+
+            it('should hide all keyboards except the "shifted" version if called with "shifted"', function() {
+                keyboard.manageLayers('shifted');
+    
+                expect(normalKeyboard.classList.contains('show')).toBeFalse();
+                expect(normalKeyboard.classList.contains('hide')).toBeTrue();
+                expect(capsKeyboard.classList.contains('show')).toBeFalse();
+                expect(capsKeyboard.classList.contains('hide')).toBeTrue();
+                expect(shiftKeyboard.classList.contains('show')).toBeTrue();
+                expect(shiftKeyboard.classList.contains('hide')).toBeFalse();
+                expect(altKeyboard.classList.contains('show')).toBeFalse();
+                expect(altKeyboard.classList.contains('hide')).toBeTrue();
+            })
+
+            it('should hide all keyboards except the "alternated" version if called with "alternated"', function() {
+                keyboard.manageLayers('alternated');
+    
+                expect(normalKeyboard.classList.contains('show')).toBeFalse();
+                expect(normalKeyboard.classList.contains('hide')).toBeTrue();
+                expect(capsKeyboard.classList.contains('show')).toBeFalse();
+                expect(capsKeyboard.classList.contains('hide')).toBeTrue();
+                expect(shiftKeyboard.classList.contains('show')).toBeFalse();
+                expect(shiftKeyboard.classList.contains('hide')).toBeTrue();
+                expect(altKeyboard.classList.contains('show')).toBeTrue();
+                expect(altKeyboard.classList.contains('hide')).toBeFalse();
+            })
+
+            afterEach(() => {
+                keyboard = null;
+            })
+    
+            afterAll(() => {
+                mainTestDiv.remove();
+                mainTestDiv = null;
+            })
         })
     })
 })
