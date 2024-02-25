@@ -1,23 +1,3 @@
-/* GLOBAL HELPER FUNCTIONS */
-
-function composeChar(character, modifierIndex) {
-    const specialChars = {
-        a: ['à', 'á', 'â', 'ä'],
-        e: ['è', 'é', 'ê', 'ë'],
-        i: ['ì', 'í', 'î', 'ï'],
-        o: ['ò', 'ó', 'ô', 'ö'],
-        u: ['ù', 'ú', 'û', 'ü'],
-        A: ['À', 'Á', 'Â', 'Ä'],
-        E: ['È', 'É', 'Ê', 'Ë'],
-        I: ['Ì', 'Í', 'Î', 'Ï'],
-        O: ['Ò', 'Ó', 'Ô', 'Ö'],
-        U: ['Ù', 'Ú', 'Û', 'Ü']
-    }
-
-    return specialChars[character][modifierIndex];
-}
-
-
 /*
     KEYBOARD CLASS
 
@@ -328,15 +308,21 @@ class Keyboard {
     }
 
     shift() {
-
+        this.activeLayer === 'shifted' ? this.activeLayer = 'normal' : this.activeLayer = 'shifted';
+        
+        this.manageLayers(this.activeLayer);
+        return true;
     }
 
     control() {
-
+        // TODO
     }
 
     alternate() {
+        this.activeLayer === 'alternated' ? this.activeLayer = 'normal' : this.activeLayer = 'alternated';
         
+        this.manageLayers(this.activeLayer);
+        return true;
     }
 
     manageLayers(layerToShow) {
@@ -391,25 +377,28 @@ class Keyboard {
                 layer.classList.add('hide');
             }
         });
+
+        return true;
     }
 
     write(payload) {
+        const boundComposer = this.composeChar.bind(this);
         if (this.graphModifier) {
             const allowedPayload = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
             if (allowedPayload.includes(payload)) {
                 let processedChar = "";
                 switch(this.graphModifier) {
                     case '`':
-                        processedChar = composeChar(payload, 0);
+                        processedChar = boundComposer(payload, 0);
                         break;
                     case '´':
-                        processedChar = composeChar(payload, 1);
+                        processedChar = boundComposer(payload, 1);
                         break;
                     case '^':
-                        processedChar = composeChar(payload, 2);
+                        processedChar = boundComposer(payload, 2);
                         break;
                     case '¨':
-                        processedChar = composeChar(payload, 3);
+                        processedChar = boundComposer(payload, 3);
                         break;
                 }
                 this.output += processedChar; 
@@ -421,6 +410,23 @@ class Keyboard {
         this.graphModifier = null;
 
         return this.output;
+    }
+
+    composeChar(character, modifierIndex) {
+        const specialChars = {
+            a: ['à', 'á', 'â', 'ä'],
+            e: ['è', 'é', 'ê', 'ë'],
+            i: ['ì', 'í', 'î', 'ï'],
+            o: ['ò', 'ó', 'ô', 'ö'],
+            u: ['ù', 'ú', 'û', 'ü'],
+            A: ['À', 'Á', 'Â', 'Ä'],
+            E: ['È', 'É', 'Ê', 'Ë'],
+            I: ['Ì', 'Í', 'Î', 'Ï'],
+            O: ['Ò', 'Ó', 'Ô', 'Ö'],
+            U: ['Ù', 'Ú', 'Û', 'Ü']
+        }
+    
+        return specialChars[character][modifierIndex];
     }
 
     writeAux(payload) {
@@ -453,6 +459,6 @@ class Keyboard {
     }
 
     destroy() {
-        
+        // TODO
     }
 }

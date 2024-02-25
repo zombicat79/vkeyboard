@@ -122,12 +122,12 @@ describe('KEYBOARD.JS', function() {
             expect(keyboard.capitalize()).toBeTrue();
         })
     
-        xit('should have a shift() method', function() {
-            expect(keyboard.shift()).toBeNull();
+        it('should have a shift() method', function() {
+            expect(keyboard.shift()).toBeTrue();
         })
     
-        xit('should have an alternate() method', function() {
-            expect(keyboard.alternate()).toBeNull();
+        it('should have an alternate() method', function() {
+            expect(keyboard.alternate()).toBeTrue();
         })
     
         it('should have a delete() method', function() {
@@ -139,6 +139,18 @@ describe('KEYBOARD.JS', function() {
         })
     
         it('should have a space() method', function() {
+            expect(keyboard.space()).not.toBeUndefined();
+        })
+
+        it('should have a manageLayers() method', function() {
+            expect(keyboard.manageLayers('alternated')).toBeTrue();
+        })
+
+        it('should have a composeChar() method', function() {
+            expect(keyboard.composeChar('u', 2)).not.toBeUndefined();
+        })
+
+        xit('should have a control() method', function() {
             expect(keyboard.space()).not.toBeUndefined();
         })
 
@@ -703,17 +715,105 @@ describe('KEYBOARD.JS', function() {
         })
     })
 
-    /* xdescribe('shift()', function() {
+    describe('shift()', function() {
+        beforeAll(() => {
+            mainTestDiv = document.createElement('div');
+            mainTestDiv.setAttribute('id', 'main-element');
+            mainTestDiv.style.opacity = '0';
+            document.body.appendChild(mainTestDiv);
+        })
 
+        beforeEach(() => {
+            keyboard = new Keyboard('main-element', 'fr-FR');
+            keyboard.init();
+
+            spyOn(keyboard, 'manageLayers');
+        })
+
+        it('should change the activeLayer value to "shifted"', function() {
+            keyboard.shift();
+            
+            expect(keyboard.activeLayer).toBe('shifted');
+        })
+
+        it('should call the "manageLayers()" method passing "shifted" as its argument', function() {
+            keyboard.shift();
+
+            expect(keyboard.manageLayers).toHaveBeenCalled();
+            expect(keyboard.manageLayers).toHaveBeenCalledTimes(1);
+            expect(keyboard.manageLayers).toHaveBeenCalledWith('shifted');
+        })
+
+        it('should call the "manageLayers()" method passing "normal" as its argument if the activeLayer is already "shifted"', function() {
+            keyboard.activeLayer = 'shifted';
+            keyboard.shift();
+
+            expect(keyboard.manageLayers).toHaveBeenCalled();
+            expect(keyboard.manageLayers).toHaveBeenCalledTimes(1);
+            expect(keyboard.manageLayers).toHaveBeenCalledWith('normal');
+        })
+
+        afterEach(() => {
+            keyboard = null;
+        })
+
+        afterAll(() => {
+            mainTestDiv.remove();
+            mainTestDiv = null;
+        })
     })
 
-    xdescribe('control()', function() {
-
-    })
-
-    xdescribe('alternate()', function() {
+    /* xdescribe('control()', function() {
 
     }) */
+
+    describe('alternate()', function() {
+        beforeAll(() => {
+            mainTestDiv = document.createElement('div');
+            mainTestDiv.setAttribute('id', 'main-element');
+            mainTestDiv.style.opacity = '0';
+            document.body.appendChild(mainTestDiv);
+        })
+
+        beforeEach(() => {
+            keyboard = new Keyboard('main-element', 'de-DE');
+            keyboard.init();
+
+            spyOn(keyboard, 'manageLayers');
+        })
+
+        it('should change the activeLayer value to "alternated"', function() {
+            keyboard.alternate();
+            
+            expect(keyboard.activeLayer).toBe('alternated');
+        })
+
+        it('should call the "manageLayers()" method passing "alternated" as its argument', function() {
+            keyboard.alternate();
+
+            expect(keyboard.manageLayers).toHaveBeenCalled();
+            expect(keyboard.manageLayers).toHaveBeenCalledTimes(1);
+            expect(keyboard.manageLayers).toHaveBeenCalledWith('alternated');
+        })
+
+        it('should call the "manageLayers()" method passing "normal" as its argument if the activeLayer is already "alternated"', function() {
+            keyboard.activeLayer = 'alternated';
+            keyboard.alternate();
+
+            expect(keyboard.manageLayers).toHaveBeenCalled();
+            expect(keyboard.manageLayers).toHaveBeenCalledTimes(1);
+            expect(keyboard.manageLayers).toHaveBeenCalledWith('normal');
+        })
+
+        afterEach(() => {
+            keyboard = null;
+        })
+
+        afterAll(() => {
+            mainTestDiv.remove();
+            mainTestDiv = null;
+        })
+    })
 
     describe('write()', function() {
         beforeEach(() => {
@@ -738,7 +838,7 @@ describe('KEYBOARD.JS', function() {
             expect(keyboard2.output).toBe('The world is mine!!!');
         })
 
-        it('should add modified characters to the end of the current output string, in case there is a graph modifier in place', function() {
+        it('should call composeChar() auxiliary method, in case there is a graph modifier in place', function() {
             keyboard.output = 't';
             keyboard.graphModifier = '^';
             
@@ -749,29 +849,42 @@ describe('KEYBOARD.JS', function() {
             keyboard3.output = 'op';
             keyboard3.graphModifier = '`';
 
+            spyOn(keyboard, 'composeChar');
+            spyOn(keyboard2, 'composeChar');
+            spyOn(keyboard3, 'composeChar');
+
             keyboard.write('o');
             keyboard.write('t');
             keyboard2.write('o');
             keyboard2.write('n');
             keyboard3.write('A');
 
-            expect(keyboard.output).toBe('tôt');
-            expect(keyboard2.output).toBe('emoción');
-            expect(keyboard3.output).toBe('opÀ');
+            expect(keyboard.composeChar).toHaveBeenCalled();
+            expect(keyboard.composeChar).toHaveBeenCalledTimes(1);
+            expect(keyboard.composeChar).toHaveBeenCalledWith('o', 2);
+            expect(keyboard2.composeChar).toHaveBeenCalled();
+            expect(keyboard2.composeChar).toHaveBeenCalledTimes(1);
+            expect(keyboard2.composeChar).toHaveBeenCalledWith('o', 1);
+            expect(keyboard3.composeChar).toHaveBeenCalled();
+            expect(keyboard3.composeChar).toHaveBeenCalledTimes(1);
+            expect(keyboard3.composeChar).toHaveBeenCalledWith('A', 0);
         })
 
-        it('should do nothing if the caracter to be modified by the graph modifier is not a vowel', function() {
+        it('should NOT call composeChar() if the caracter to be modified by the graph modifier is not a vowel', function() {
             keyboard.output = 't';
             keyboard.graphModifier = '^';
             
             keyboard2.output = 'emoci';
             keyboard2.graphModifier = '´';
 
+            spyOn(keyboard, 'composeChar');
+            spyOn(keyboard2, 'composeChar');
+
             keyboard.write('s');
             keyboard2.write('p');
 
-            expect(keyboard.output).not.toBe('ts')
-            expect(keyboard2.output).not.toBe('emocip')
+            expect(keyboard.composeChar).not.toHaveBeenCalled();
+            expect(keyboard2.composeChar).not.toHaveBeenCalled();
         })
 
         it('should clean up any existing graph modifier after output string modification', function() {
@@ -1041,6 +1154,41 @@ describe('KEYBOARD.JS', function() {
             afterAll(() => {
                 mainTestDiv.remove();
                 mainTestDiv = null;
+            })
+        })
+
+        describe('composeChar()', function() {
+            beforeAll(() => {
+                keyboard = new Keyboard('inexistent-element', 'fr-FR');
+                keyboard2 = new Keyboard('inexistent-element', 'spanish');
+                keyboard3 = new Keyboard('whatever-element', 'german');
+            })
+
+            it('should add modified characters to the end of the current output string, in case there is a graph modifier in place', function() {
+                keyboard.output = 't';
+                keyboard.graphModifier = '^';
+                
+                keyboard2.output = 'emoci';
+                keyboard2.graphModifier = '´';
+    
+                keyboard3.output = 'op';
+                keyboard3.graphModifier = '`';
+    
+                keyboard.write('o');
+                keyboard.write('t');
+                keyboard2.write('o');
+                keyboard2.write('n');
+                keyboard3.write('A');
+    
+                expect(keyboard.output).toBe('tôt');
+                expect(keyboard2.output).toBe('emoción');
+                expect(keyboard3.output).toBe('opÀ');
+            })
+    
+            afterAll(() => {
+                keyboard = null;
+                keyboard2 = null;
+                keyboard3 = null;
             })
         })
     })
