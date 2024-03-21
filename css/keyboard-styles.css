@@ -1,0 +1,17 @@
+.show {
+    display: grid;
+}
+.hide {
+    display: none;
+}
+
+.screen {
+
+}
+
+.keyboard--FR {
+    grid-template-columns: repeat(14, 1fr);
+}
+.keyboard--RU {
+    grid-template-columns: repeat(14, 1fr);
+}

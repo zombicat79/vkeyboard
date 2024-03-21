@@ -110,8 +110,8 @@ describe('KEYBOARD.JS', function() {
             expect(keyboard.writeAux('^')).not.toBeUndefined();
         })
 
-        xit('should have a destroy() method', function() {
-            expect(keyboard.tabulate()).toBeNull();
+        it('should have a destroy() method', function() {
+            expect(keyboard.destroy(false)).toBe("terminated");
         })
         
         it('should have a tabulate() method', function() {
@@ -206,6 +206,10 @@ describe('KEYBOARD.JS', function() {
         it('1st child element should get a class attribute of "screen"', function() {
             expect(Array.from(mainTestDiv.children)[0].classList.contains("screen")).toBeTruthy();
             expect(Array.from(mainTestDiv.children)[1].classList.contains("screen")).toBeFalsy();
+        })
+
+        it('1st child element should get a readonly attribute', function() {
+            expect(Array.from(mainTestDiv.children)[0].readOnly).toBeTrue();
         })
 
         it('2nd to 5th children elements should be of type "div"', function() {
@@ -607,32 +611,27 @@ describe('KEYBOARD.JS', function() {
         })
     })
 
-    /* describe('destroy() method', function() {
+    describe('destroy() method', function() {
         beforeAll(() => {
             mainTestDiv = document.createElement('div');
             mainTestDiv.setAttribute('id', 'main-element');
             mainTestDiv.style.opacity = '0';
             document.body.appendChild(mainTestDiv);
             keyboard = new Keyboard('main-element', 'it-IT');
-        })
-
-        beforeEach(() => {
             keyboard.init();
         })
 
         it('should remove a previously initialized keyboard from the DOM', function() {
-            expect(document.getElementById('main-element')).toBeUndefined();
-        })
-
-        xit('should remove a previously initialized keyboard instance', function() {
-            // expect(keyboard).toBeNull();
+            keyboard.destroy();
+            
+            expect(document.getElementById('main-element')).toBeNull();
         })
 
         afterAll(() => {
             mainTestDiv = null;
             keyboard = null;
         })
-    }) */
+    })
 
     describe('tabulate()', function() {
         beforeEach(() => {

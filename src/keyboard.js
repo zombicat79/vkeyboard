@@ -29,6 +29,7 @@ class Keyboard {
         this.activeLayer = 'normal';
         this.armedBtns = 0;
         this.output = "";
+        this.screen = null;
         this.graphModifier = null;
         this.initReport = [];
 
@@ -100,6 +101,8 @@ class Keyboard {
         
         childrenElements.forEach((el, index) => {
             index === 0 ? el.classList.add('screen') : el.classList.add('keyboard');
+            index === 0 ? el.readOnly = true : null;
+            index === 0 ? this.screen = el : null;
             switch(index) {
                 case 1:
                     el.classList.add('keyboard--normal', 'show');
@@ -241,23 +244,27 @@ class Keyboard {
                     break;
                 case btnClasses.includes('operation'):
                     if (btn.dataset.content === "Caps") {
+                        const method = this.capitalize.bind(this);
                         btn.addEventListener('click', function() {
-                            this.capitalize();
+                            method();
                         });
                         action = 'capitalize';
                     } else if (btn.dataset.content === "Shift") {
+                        const method = this.shift.bind(this);
                         btn.addEventListener('click', function() {
-                            this.shift();
+                            method();
                         });
                         action = 'shift';
                     } else if (btn.dataset.content === "Alt") {
+                        const method = this.alternate.bind(this);
                         btn.addEventListener('click', function() {
-                            this.alternate();
+                            method();
                         });
                         action = 'alternate';
                     } else if (btn.dataset.content === "Tab") {
+                        const method = this.tabulate.bind(this);
                         btn.addEventListener('click', function() {
-                            this.tabulate();
+                            method();
                         });
                         action = 'tabulate';
                     } else if (btn.dataset.content === "Backspace") {
@@ -267,8 +274,9 @@ class Keyboard {
                         });
                         action = 'delete';
                     } else if (btn.dataset.content === "Enter") {
+                        const method = this.tabulate.bind(this);
                         btn.addEventListener('click', function() {
-                            this.enter();
+                            method();
                         });
                         action = 'enter';
                     }
@@ -279,8 +287,9 @@ class Keyboard {
                         });
                         action = 'space';
                     } else if (btn.dataset.content === "Control") {
+                        const method = this.space.bind(this);
                         btn.addEventListener('click', function() {
-                            this.control();
+                            method();
                         });
                         action = 'control';
                     }
@@ -296,6 +305,9 @@ class Keyboard {
 
     tabulate() {
         this.output += '\t';
+        if (this.screen) {
+            this.screen.value = this.output;
+        }
 
         return this.output;
     }
@@ -372,7 +384,7 @@ class Keyboard {
         }
 
         deactivatedLayers.forEach((layer) => {
-            if (layer) {
+            if (layer && !(layer.classList.contains("screen"))) {
                 layer.classList.remove('show');
                 layer.classList.add('hide');
             }
@@ -407,6 +419,9 @@ class Keyboard {
             this.output += payload;
         }
 
+        if (this.screen) {
+            this.screen.value = this.output;
+        }
         this.graphModifier = null;
 
         return this.output;
@@ -443,22 +458,37 @@ class Keyboard {
             this.output = this.output.substring(0, this.output.length-1);
         }
 
+        if (this.screen) {
+            this.screen.value = this.output;
+        }
+
         return this.output;
     }
 
     enter() {
         this.output += '\n';
+        if (this.screen) {
+            this.screen.value = this.output;
+        }
 
         return this.output;
     }
 
     space() {
         this.output += " ";
+        if (this.screen) {
+            this.screen.value = this.output;
+        }
 
         return this.output;
     }
 
-    destroy() {
-        // TODO
+    destroy(enforce = true) {
+        if (enforce) {
+            const keyboardFrame = document.getElementById(this.target);
+            keyboardFrame.remove();
+        }
+    
+        return "terminated";
     }
 }
