@@ -10,8 +10,112 @@
 }
 
 .keyboard--FR {
-    grid-template-columns: repeat(14, 1fr);
+    grid-template-columns: repeat(15, 1fr);
 }
+
+.keyboard--capitalized.show #ru-capitalized-Caps, 
+.keyboard--shifted.show #ru-shifted-Shift-1, 
+.keyboard--shifted.show #ru-shifted-Shift-2, 
+.keyboard--alternated.show #ru-alternated-Alt-1, 
+.keyboard--alternated.show #ru-alternated-Alt-2 {
+    color: red;
+}
+
+/* RUSSIAN KEYBOARD LAYOUT */
 .keyboard--RU {
-    grid-template-columns: repeat(14, 1fr);
+    grid-template-columns: repeat(30, 1fr);
+    grid-template-rows: repeat(5, minmax(max-content, 1fr));
+    grid-auto-flow: dense;
+    grid-gap: 1px;
+}
+.keyboard__button--standard, 
+.keyboard__button--void {
+    grid-column: span 2;
+}
+#ru-normal-Backspace, 
+#ru-capitalized-Backspace, 
+#ru-shifted-Backspace, 
+#ru-alternated-Backspace {
+    grid-column: 27 / -1;
+}
+#ru-normal-Tab, 
+#ru-capitalized-Tab, 
+#ru-shifted-Tab, 
+#ru-alternated-Tab {
+    grid-column: 1 / span 3;
+}
+#ru-normal-92, 
+#ru-capitalized-92, 
+#ru-shifted-47, 
+#ru-alternated-124 {
+    grid-column: span 3;
+}
+#ru-normal-Caps, 
+#ru-capitalized-Caps, 
+#ru-shifted-Caps, 
+#ru-alternated-Caps {
+    grid-column: 1 / span 4;
+}
+#ru-normal-Enter, 
+#ru-capitalized-Enter, 
+#ru-shifted-Enter, 
+#ru-alternated-Enter {
+    grid-column: 27 / -1;
+}
+#ru-normal-Shift-1, 
+#ru-capitalized-Shift-1, 
+#ru-shifted-Shift-1, 
+#ru-alternated-Shift-1 {
+    grid-column: 1 / 3;
+}
+#ru-normal-Shift-2, 
+#ru-capitalized-Shift-2, 
+#ru-shifted-Shift-2, 
+#ru-alternated-Shift-2 {
+    grid-column: 26 / -1;
+}
+#ru-normal-Control-1, 
+#ru-capitalized-Control-1, 
+#ru-shifted-Control-1, 
+#ru-alternated-Control-1 {
+    grid-column: 1 / span 3;
+}
+#ru-normal-Emoji, 
+#ru-capitalized-Emoji, 
+#ru-shifted-Emoji, 
+#ru-alternated-Emoji {
+    grid-column: 4 / 7;
+}
+#ru-normal-Alt-1, 
+#ru-capitalized-Alt-1, 
+#ru-shifted-Alt-1, 
+#ru-alternated-Alt-1 {
+    grid-column: 7 / 10;
+}
+#ru-normal-Space, 
+#ru-capitalized-Space, 
+#ru-shifted-Space, 
+#ru-alternated-Space {
+    grid-column: 10 / 22;
+}
+#ru-normal-Alt-2, 
+#ru-capitalized-Alt-2, 
+#ru-shifted-Alt-2, 
+#ru-alternated-Alt-2 {
+    grid-column: span 3;
+}
+#ru-normal-Esc, 
+#ru-capitalized-Esc, 
+#ru-shifted-Esc, 
+#ru-alternated-Esc {
+    grid-column: span 3;
+}
+#ru-normal-Control-2, 
+#ru-capitalized-Control-2, 
+#ru-shifted-Control-2, 
+#ru-alternated-Control-2 {
+    grid-column: span 3;
+}
+#ru-alternated-126 {
+    grid-column: 28 / -1;
 }
