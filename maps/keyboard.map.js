@@ -2,31 +2,31 @@ const spanishMap = {
     language: 'es-ES',
     normal: [
         [186, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 39, 161, "Backspace"],
-        ["Tab", 113, 119, 101, 114, 116, 121, 117, 105, 111, 112, "*96", 43, "Enter"],
+        ["Tab", 113, 119, 101, 114, 116, 121, 117, 105, 111, 112, "*96", 43],
         ["Caps", 97, 115, 100, 102, 103, 104, 106, 107, 108, 241, "*180", 231, "Enter"],
         ["Shift", "&lt;", 122, 120, 99, 118, 98, 110, 109, 44, 46, 45, "Shift"],
-        ["Control", null, "Alt", "Space", "Alt", null, null, "Control"]
+        ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ],
     capitalized: [
         [186, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 39, 161, "Backspace"],
-        ["Tab", 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, "*96", 43, "Enter"],
+        ["Tab", 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, "*96", 43],
         ["Caps", 65, 83, 68, 70, 71, 72, 74, 75, 76, 209, "*180", 199, "Enter"],
         ["Shift", "&lt;", 90, 88, 67, 86, 66, 78, 77, 44, 46, 45, "Shift"],
-        ["Control", null, "Alt", "Space", "Alt", null, null, "Control"]
+        ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ],
     shifted: [
         [170, 33, 34, 183, 36, 37, "&amp;", 47, 40, 41, 61, 63, 191, "Backspace"],
-        ["Tab", 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, "*94", 42, "Enter"],
+        ["Tab", 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, "*94", 42],
         ["Caps", 65, 83, 68, 70, 71, 72, 74, 75, 76, 209, "*168", 199, "Enter"],
         ["Shift", "&gt;", 90, 88, 67, 86, 66, 78, 77, 59, 58, 95, "Shift"],
-        ["Control", null, "Alt", "Space", "Alt", null, null, "Control"]
+        ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ],
     alternated: [
         [92, 124, 64, 35, 162, 236, 170, 246, 34, 34, "&ne;", "*180", 39, "Backspace"],
-        ["Tab", "&oelig;", 230, 128, 174, 134, 165, null, null, 248, "&pi;", 91, 93, "Enter"],
+        ["Tab", "&oelig;", 230, 128, 174, 134, 165, null, null, 248, "&pi;", 91, 93],
         ["Caps", 229, "&int;", "&part;", "&fnof;", "&#63743;", "&trade;", 244, 245, null, 126, 123, 125, "Enter"],
-        ["Shift", "&le;", "&Omega;", "&sum;", 184, "&radic;", 223, null, 181, "&bdquo;", 133, 150, "Shift"],
-        ["Control", null, "Alt", "Space", "Alt", null, null, "Control"]
+        ["Shift", "&le;", "&Omega;", "&sum;", 184, "&radic;", 223, null, 181, "&bdquo;", null, null, "Shift"],
+        ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ]
 };
 
@@ -68,21 +68,21 @@ const americanMap = {
         ["*96", 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 45, 61, "Backspace"],
         ["Tab", 113, 119, 101, 114, 116, 121, 117, 105, 111, 112, 91, 93, 92],
         ["Caps", 97, 115, 100, 102, 103, 104, 106, 107, 108, 59, 39, "Enter"],
-        ["Shift", 122, 120, 99, 118, 98, 110, 109, 44, 46, 47, "Shift"],
+        ["Shift", 92, 122, 120, 99, 118, 98, 110, 109, 44, 46, 47, "Shift"],
         ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ],
     capitalized: [
         ["*96", 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 45, 61, "Backspace"],
         ["Tab", 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 91, 93, 92],
         ["Caps", 65, 83, 68, 70, 71, 72, 74, 75, 76, 59, 39, "Enter"],
-        ["Shift", 90, 88, 67, 86, 66, 78, 77, 44, 46, 47, "Shift"],
+        ["Shift", 92, 90, 88, 67, 86, 66, 78, 77, 44, 46, 47, "Shift"],
         ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ],
     shifted: [
         [126, 33, 64, 35, 36, 37, "*94", "&amp;", 42, 40, 41, 45, 43, "Backspace"],
         ["Tab", 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 123, 125, 124],
         ["Caps", 65, 83, 68, 70, 71, 72, 74, 75, 76, 58, 34, "Enter"],
-        ["Shift", 90, 88, 67, 86, 66, 78, 77, "&lt;", "&gt;", 63, "Shift"],
+        ["Shift", 124, 90, 88, 67, 86, 66, 78, 77, "&lt;", "&gt;", 63, "Shift"],
         ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ],
     alternated: [
@@ -153,7 +153,7 @@ const frenchMap = {
         [null, null, 126, 35, 123, 91, 124, "*96", 92, "*94", 64, 93, 125, "Backspace"],
         ["Tab", null, null, 128, null, null, null, null, null, null, null, null, 164, null],
         ["Caps", null, null, null, null, null, null, null, null, null, null, null, "Enter"],
-        ["Shift", null, null, null, null, null, null, null, null, null, null, null, "Enter"],
+        ["Shift", null, null, null, null, null, null, null, null, null, null, null, "Shift"],
         ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ]
 };
@@ -161,7 +161,7 @@ const frenchMap = {
 const germanMap = {
     language: 'de-DE',
     normal: [
-        ["*94", 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 337, "*180", "Backspace"],
+        ["*94", 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 223, "*180", "Backspace"],
         ["Tab", 113, 119, 101, 114, 116, 122, 117, 105, 111, 112, 252, 43, 35],
         ["Caps", 97, 115, 100, 102, 103, 104, 106, 107, 108, 246, 228, "Enter"],
         ["Shift", "&lt;", 121, 120, 99, 118, 98, 110, 109, 44, 46, 45, "Shift"],
@@ -175,7 +175,7 @@ const germanMap = {
         ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ],
     shifted: [
-        ["*94", 33, 34, 167, 36, 37, "&amp;", 47, 40, 41, 61, 63, "*180", "Backspace"],
+        [186, 33, 34, 167, 36, 37, "&amp;", 47, 40, 41, 61, 63, "*180", "Backspace"],
         ["Tab", 81, 87, 69, 82, 84, 90, 85, 73, 79, 80, 220, 42, 39],
         ["Caps", 65, 83, 68, 70, 71, 72, 74, 75, 76, 214, 196, "Enter"],
         ["Shift", "&gt;", 89, 88, 67, 86, 66, 78, 77, 59, 58, 95, "Shift"],
