@@ -27,8 +27,18 @@ const spanishMap = {
         ["Caps", 229, "&int;", "&part;", "&fnof;", "&#63743;", "&trade;", 244, 245, null, 126, 123, 125, "Enter"],
         ["Shift", "&le;", "&Omega;", "&sum;", 184, "&radic;", 223, null, 181, "&bdquo;", null, null, "Shift"],
         ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
+    ],
+    emotional: [
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, "Backspace"],
+        ["Tab", "&#x1F642", "&#x1F970", "&#x1F60B", "&#x1F917", "&#x1F610", "&#x1F62A", "&#x1F637", "&#x1F615", "&#x1F624", "&#x1F63A", "&#x1F648", "&#x1F4A9"],
+        ["Caps", "&#x1F44B", "&#x1F471", "&#x1F46A", "&#x1F415", "&#x1F332", "&#x1F355", "&#x1F377", "&#x1F30D", "&#x1F3E0", "&#x1F697", "&#x1F570", "&#x1F326", "Enter"],
+        ["Shift", "&#x1F389", "&#x1F3AD", "&#x26BD", "&#x1F947", "&#x1F3B2", "&#x1F454", "&#x1F3B5", "&#x1F4BB", "&#x1F58C", "&#x1F4EA", "&#x1F4B5", "Shift"],
+        ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ]
 };
+
+// https://www.freecodecamp.org/news/all-emojis-emoji-list-for-copy-and-paste/
+// https://www.w3schools.com/charsets/ref_emoji_symbols.asp
 
 const britishMap = {
     language: 'en-GB',
@@ -58,6 +68,13 @@ const britishMap = {
         ["Tab", null, null, 233, null, null, null, 250, 237, 243, null, null, null, null],
         ["Caps", 225, null, null, null, null, null, null, null, null, null, null, "Enter"],
         ["Shift", null, null, null, null, null, null, null, null, null, null, null, "Shift"],
+        ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
+    ],
+    emotional: [
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, "Backspace"],
+        ["Tab", null, null, null, null, null, null, null, null, null, null, null, null, null],
+        ["Caps", null, null, null, null, null, null, null, null, null, null, null, "Enter"],
+        ["Shift", null, null, null,null, null,null, null, null, null, null, null, "Shift"],
         ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ]
 };
@@ -91,6 +108,13 @@ const americanMap = {
         ["Caps", 225, 223, 240, null, null, null, null, null, 248, 182, "*180", "Enter"],
         ["Shift", 230, null, 169, null, null, 241, 181, 231, null, 191, "Shift"],
         ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
+    ],
+    emotional: [
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, "Backspace"],
+        ["Tab", null, null, null, null, null, null, null, null, null, null, null, null, null],
+        ["Caps", null, null, null, null, null, null, null, null, null, null, null, "Enter"],
+        ["Shift", null, null, null,null, null,null, null, null, null, null, "Shift"],
+        ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ]
 };
 
@@ -122,6 +146,13 @@ const italianMap = {
         ["Tab", null, null, 128, null, null, null, null, null, null, null, 91, 93, 167],
         ["Caps", null, null, null, null, null, null, null, null, null, 64, 35, "Enter"],
         ["Shift", null, null, null, null, null, null, null, null, 171, 187, 176, "Shift"],
+        ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
+    ],
+    emotional: [
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, "Backspace"],
+        ["Tab", null, null, null, null, null, null, null, null, null, null, null, null, null],
+        ["Caps", null, null, null, null, null, null, null, null, null, null, null, "Enter"],
+        ["Shift", null, null, null,null, null,null, null, null, null, null, null, "Shift"],
         ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ]
 };
@@ -155,6 +186,13 @@ const frenchMap = {
         ["Caps", null, null, null, null, null, null, null, null, null, null, null, "Enter"],
         ["Shift", null, null, null, null, null, null, null, null, null, null, null, "Shift"],
         ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
+    ],
+    emotional: [
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, "Backspace"],
+        ["Tab", null, null, null, null, null, null, null, null, null, null, null, null, null],
+        ["Caps", null, null, null, null, null, null, null, null, null, null, null, "Enter"],
+        ["Shift", null, null, null,null, null,null, null, null, null, null, null, "Shift"],
+        ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ]
 };
 
@@ -187,6 +225,13 @@ const germanMap = {
         ["Caps", null, null, null, null, null, null, null, null, null, null, null, "Enter"],
         ["Shift", 124, null, null, null, null, null, null, 181, null, null, null, "Shift"],
         ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
+    ],
+    emotional: [
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, "Backspace"],
+        ["Tab", null, null, null, null, null, null, null, null, null, null, null, null, null],
+        ["Caps", null, null, null, null, null, null, null, null, null, null, null, "Enter"],
+        ["Shift", null, null, null,null, null,null, null, null, null, null, null, "Shift"],
+        ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ]
 };
 
@@ -218,6 +263,13 @@ const russianMap = {
         ["Tab", 64, null, 128, null, null, null, null, null, null, null, null, 126, null],
         ["Caps", null, null, null, null, null, null, null, null, null, null, null, "Enter"],
         ["Shift", 124, null, null, null, null, null, null, 181, null, null, null, "Shift"],
+        ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
+    ],
+    emotional: [
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, "Backspace"],
+        ["Tab", null, null, null, null, null, null, null, null, null, null, null, null, null],
+        ["Caps", null, null, null, null, null, null, null, null, null, null, null, "Enter"],
+        ["Shift", null, null, null,null, null,null, null, null, null, null, null, "Shift"],
         ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ]
 };

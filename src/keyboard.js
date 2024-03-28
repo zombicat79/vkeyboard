@@ -96,6 +96,7 @@ class Keyboard {
             document.createElement('div'),
             document.createElement('div'),
             document.createElement('div'),
+            document.createElement('div'),
             document.createElement('div')
         ];
         
@@ -116,6 +117,9 @@ class Keyboard {
                 case 4:
                     el.classList.add('keyboard--alternated', 'hide');
                     break;
+                case 5:
+                    el.classList.add('keyboard--emotional', 'hide');
+                    break;
             }
 
             const langCode = this.map.language.match(/[A-Z]{2}$/)
@@ -125,6 +129,16 @@ class Keyboard {
         });
 
         return this.mount();
+    }
+
+    measureKeyboardFrame() {
+        const size = document.getElementById(this.target).offsetWidth;
+        console.log(size)
+        if (size < 200) {
+            return "ko";
+        }
+        
+        return "ok";
     }
 
     mount() {
@@ -144,6 +158,9 @@ class Keyboard {
                     break;
                 case keyboard.classList.contains('keyboard--alternated'):
                     keyboardType = 'alternated';
+                    break;
+                case keyboard.classList.contains('keyboard--emotional'):
+                    keyboardType = 'emotional';
                     break;
             }
 
@@ -173,6 +190,10 @@ class Keyboard {
                         newBtn.innerHTML = String.fromCharCode(trimmedEl);
                         newBtn.id = this.langId + '-' + keyboardType + '-' + el;
                         newBtn.classList.add('keyboard__button--standard');
+                    } else if (/^&#x\w+$/.test(el)) {
+                        newBtn.innerHTML = el;
+                        newBtn.id = this.langId + '-' + keyboardType + '-' + el;
+                        newBtn.classList.add('keyboard__button--emoji');
                     } else {
                         newBtn.innerHTML = el;
                         if (/^\w{2,}$/.test(el)) {
@@ -267,6 +288,12 @@ class Keyboard {
                             method();
                         });
                         action = 'tabulate';
+                    } else if (btn.dataset.content === "Emoji") {
+                        const method = this.goEmotional.bind(this);
+                        btn.addEventListener('click', function() {
+                            method();
+                        });
+                        action = 'emotional';
                     } else if (btn.dataset.content === "Backspace") {
                         const method = this.delete.bind(this);
                         btn.addEventListener('click', function() {
@@ -326,6 +353,13 @@ class Keyboard {
         return true;
     }
 
+    goEmotional() {
+        this.activeLayer === 'emotional' ? this.activeLayer = 'normal' : this.activeLayer = 'emotional';
+        
+        this.manageLayers(this.activeLayer);
+        return true;
+    }
+
     control() {
         // TODO
     }
@@ -374,6 +408,16 @@ class Keyboard {
             case 'alternated':
                 deactivatedLayers = keyboardLayers.map((layer) => {
                     if (layer.classList.contains('keyboard--alternated')) {
+                        layer.classList.remove('hide');
+                        layer.classList.add('show');
+                    } else {
+                        return layer;
+                    }
+                })
+                break;
+            case 'emotional':
+                deactivatedLayers = keyboardLayers.map((layer) => {
+                    if (layer.classList.contains('keyboard--emotional')) {
                         layer.classList.remove('hide');
                         layer.classList.add('show');
                     } else {

@@ -133,6 +133,10 @@ describe('KEYBOARD.JS', function() {
         it('should have a delete() method', function() {
             expect(keyboard.delete()).not.toBeUndefined();
         })
+
+        it('should have a goEmotional() method', function() {
+            expect(keyboard.goEmotional()).toBeTrue();
+        })
     
         it('should have an enter() method', function() {
             expect(keyboard.enter()).not.toBeUndefined();
@@ -140,6 +144,12 @@ describe('KEYBOARD.JS', function() {
     
         it('should have a space() method', function() {
             expect(keyboard.space()).not.toBeUndefined();
+        })
+
+        it('should have a measureKeyboardFrame() method', function() {
+            const sizingResult = keyboard.measureKeyboardFrame();
+
+            expect(typeof sizingResult).toBe("string");
         })
 
         it('should have a manageLayers() method', function() {
@@ -195,8 +205,8 @@ describe('KEYBOARD.JS', function() {
         })
 
 
-        it('should append 5 children HTML elements to the element passed as 1st parameter upon instantiation', function() {
-            expect(Array.from(mainTestDiv.children).length).toBe(5);
+        it('should append 7 children HTML elements to the element passed as 1st parameter upon instantiation', function() {
+            expect(Array.from(mainTestDiv.children).length).toBe(7);
         })
 
         it('1st child element should be of type "textarea"', function() {
@@ -212,27 +222,33 @@ describe('KEYBOARD.JS', function() {
             expect(Array.from(mainTestDiv.children)[0].readOnly).toBeTrue();
         })
 
-        it('2nd to 5th children elements should be of type "div"', function() {
+        it('2nd to 7th children elements should be of type "div"', function() {
             expect(Array.from(mainTestDiv.children)[1].nodeName).toBe("DIV");
             expect(Array.from(mainTestDiv.children)[2].nodeName).toBe("DIV");
             expect(Array.from(mainTestDiv.children)[3].nodeName).toBe("DIV");
             expect(Array.from(mainTestDiv.children)[4].nodeName).toBe("DIV");
+            expect(Array.from(mainTestDiv.children)[5].nodeName).toBe("DIV");
+            expect(Array.from(mainTestDiv.children)[6].nodeName).toBe("DIV");
         })
 
-        it('2nd to 5th children elements should get a class attribute of "keyboard"', function() {
+        it('2nd to 6th children elements should get a class attribute of "keyboard"', function() {
             expect(Array.from(mainTestDiv.children)[0].classList.contains("keyboard")).toBeFalsy();
             expect(Array.from(mainTestDiv.children)[1].classList.contains("keyboard")).toBeTruthy();
             expect(Array.from(mainTestDiv.children)[2].classList.contains("keyboard")).toBeTruthy();
             expect(Array.from(mainTestDiv.children)[3].classList.contains("keyboard")).toBeTruthy();
             expect(Array.from(mainTestDiv.children)[4].classList.contains("keyboard")).toBeTruthy();
+            expect(Array.from(mainTestDiv.children)[5].classList.contains("keyboard")).toBeTruthy();
+            expect(Array.from(mainTestDiv.children)[6].classList.contains("keyboard")).toBeFalsy();
         })
 
-        it('2nd to 5th children elements should get a class attribute corresponding to the language chosen for keyboard initialization. It should conform to the example format "keyboard--ES"', function() {
+        it('2nd to 6th children elements should get a class attribute corresponding to the language chosen for keyboard initialization. It should conform to the example format "keyboard--ES"', function() {
             expect(Array.from(mainTestDiv.children)[0].classList.contains("keyboard--DE")).toBeFalsy();
             expect(Array.from(mainTestDiv.children)[1].classList.contains("keyboard--ES")).toBeTruthy();
             expect(Array.from(mainTestDiv.children)[2].classList.contains("keyboard--ES")).toBeTruthy();
             expect(Array.from(mainTestDiv.children)[3].classList.contains("keyboard--ES")).toBeTruthy();
             expect(Array.from(mainTestDiv.children)[4].classList.contains("keyboard--ES")).toBeTruthy();
+            expect(Array.from(mainTestDiv.children)[5].classList.contains("keyboard--ES")).toBeTruthy();
+            expect(Array.from(mainTestDiv.children)[6].classList.contains("keyboard--ES")).toBeFalsy();
         })
 
         it('2nd child element should get class attributes of "keyboard--normal" and "show"', function() {
@@ -261,6 +277,30 @@ describe('KEYBOARD.JS', function() {
             expect(Array.from(mainTestDiv.children)[4].classList.contains("hide")).toBeTruthy();
             expect(Array.from(mainTestDiv.children)[4].classList.contains("keyboard--capitalized")).toBeFalsy();
             expect(Array.from(mainTestDiv.children)[4].classList.contains("show")).toBeFalsy();
+        })
+
+        it('6th child element should get class attributes of "keyboard--emotional" and "hide"', function() {
+            expect(Array.from(mainTestDiv.children)[5].classList.contains("keyboard--emotional")).toBeTruthy();
+            expect(Array.from(mainTestDiv.children)[5].classList.contains("hide")).toBeTruthy();
+            expect(Array.from(mainTestDiv.children)[5].classList.contains("keyboard--shifted")).toBeFalsy();
+            expect(Array.from(mainTestDiv.children)[5].classList.contains("show")).toBeFalsy();
+        })
+
+        it('7h child element should get class attributes of "info-panel" and "hide"', function() {
+            expect(Array.from(mainTestDiv.children)[5].classList.contains("info-panel")).toBeTruthy();
+            expect(Array.from(mainTestDiv.children)[5].classList.contains("hide")).toBeTruthy();
+            expect(Array.from(mainTestDiv.children)[5].classList.contains("keyboard--normal")).toBeFalsy();
+            expect(Array.from(mainTestDiv.children)[5].classList.contains("show")).toBeFalsy();
+        })
+
+        it('should call the measureKeyboardFrame() method', function() {
+            spyOn(keyboard, 'measureKeyboardFrame');
+            spyOn(keyboard2, 'measureKeyboardFrame');
+
+            expect(keyboard.measureKeyboardFrame).toHaveBeenCalled();
+            expect(keyboard.measureKeyboardFrame).toHaveBeenCalledTimes(1);
+            expect(keyboard2.measureKeyboardFrame).toHaveBeenCalled();
+            expect(keyboard2.measureKeyboardFrame).toHaveBeenCalledTimes(1);
         })
 
         it('should call the subsequent mount() method', function() {
@@ -374,7 +414,7 @@ describe('KEYBOARD.JS', function() {
             }
         })
 
-        it('every "keyboard__button" element should have a class attribute for clasification purposes. The allowed categories should be "keyboard__button--standard", "keyboard__button--operation" and "keyboard__button--void"', function() {
+        it('every "keyboard__button" element should have a class attribute for clasification purposes. The allowed categories should be "keyboard__button--standard", "keyboard__button--emoji", "keyboard__button--operation" and "keyboard__button--void"', function() {
             const btnType = testBtn.getAttribute('class').match(/keyboard__button--[a-z]+/);
             
             expect(btnType).not.toBeNull();
@@ -411,13 +451,15 @@ describe('KEYBOARD.JS', function() {
             const spanishCapitalizedTotal = spanishMap.capitalized[0].length + spanishMap.capitalized[1].length + spanishMap.capitalized[2].length + spanishMap.capitalized[3].length + spanishMap.capitalized[4].length;
             const spanishShiftedTotal = spanishMap.shifted[0].length + spanishMap.shifted[1].length + spanishMap.shifted[2].length + spanishMap.shifted[3].length + spanishMap.shifted[4].length;
             const spanishAlternatedTotal = spanishMap.alternated[0].length + spanishMap.alternated[1].length + spanishMap.alternated[2].length + spanishMap.alternated[3].length + spanishMap.alternated[4].length;
-            const spanishGrandTotal = spanishNormalTotal + spanishCapitalizedTotal + spanishShiftedTotal + spanishAlternatedTotal;
+            const spanishEmotionalTotal = spanishMap.emotional[0].length + spanishMap.emotional[1].length + spanishMap.emotional[2].length + spanishMap.emotional[3].length + spanishMap.emotional[4].length;
+            const spanishGrandTotal = spanishNormalTotal + spanishCapitalizedTotal + spanishShiftedTotal + spanishAlternatedTotal + spanishEmotionalTotal;
 
             const russianNormalTotal = russianMap.normal[0].length + russianMap.normal[1].length + russianMap.normal[2].length + russianMap.normal[3].length + russianMap.normal[4].length;
             const russianCapitalizedTotal = russianMap.capitalized[0].length + russianMap.capitalized[1].length + russianMap.capitalized[2].length + russianMap.capitalized[3].length + russianMap.capitalized[4].length;
             const russianShiftedTotal = russianMap.shifted[0].length + russianMap.shifted[1].length + russianMap.shifted[2].length + russianMap.shifted[3].length + russianMap.shifted[4].length;
             const russianAlternatedTotal = russianMap.alternated[0].length + russianMap.alternated[1].length + russianMap.alternated[2].length + russianMap.alternated[3].length + russianMap.alternated[4].length;
-            const russianGrandTotal = russianNormalTotal + russianCapitalizedTotal + russianShiftedTotal + russianAlternatedTotal;
+            const russianEmotionalTotal = russianMap.emotional[0].length + russianMap.emotional[1].length + russianMap.emotional[2].length + russianMap.emotional[3].length + russianMap.emotional[4].length;
+            const russianGrandTotal = russianNormalTotal + russianCapitalizedTotal + russianShiftedTotal + russianAlternatedTotal + russianEmotionalTotal;
 
             expect(keyboard.armedBtns).toBe(spanishGrandTotal);
             expect(keyboard2.armedBtns).toBe(russianGrandTotal);
@@ -762,6 +804,54 @@ describe('KEYBOARD.JS', function() {
         })
     })
 
+    describe('goEmotional()', function() {
+        beforeAll(() => {
+            mainTestDiv = document.createElement('div');
+            mainTestDiv.setAttribute('id', 'main-element');
+            mainTestDiv.style.opacity = '0';
+            document.body.appendChild(mainTestDiv);
+        })
+
+        beforeEach(() => {
+            keyboard = new Keyboard('main-element', 'italian');
+            keyboard.init();
+
+            spyOn(keyboard, 'manageLayers');
+        })
+
+        it('should change the activeLayer value to "emotional"', function() {
+            keyboard.goEmotional();
+            
+            expect(keyboard.activeLayer).toBe('emotional');
+        })
+
+        it('should call the "manageLayers()" method passing "emotional" as its argument', function() {
+            keyboard.goEmotional();
+
+            expect(keyboard.manageLayers).toHaveBeenCalled();
+            expect(keyboard.manageLayers).toHaveBeenCalledTimes(1);
+            expect(keyboard.manageLayers).toHaveBeenCalledWith('emotional');
+        })
+
+        it('should call the "manageLayers()" method passing "normal" as its argument if the activeLayer is already "emotional"', function() {
+            keyboard.activeLayer = 'emotional';
+            keyboard.goEmotional();
+
+            expect(keyboard.manageLayers).toHaveBeenCalled();
+            expect(keyboard.manageLayers).toHaveBeenCalledTimes(1);
+            expect(keyboard.manageLayers).toHaveBeenCalledWith('normal');
+        })
+
+        afterEach(() => {
+            keyboard = null;
+        })
+
+        afterAll(() => {
+            mainTestDiv.remove();
+            mainTestDiv = null;
+        })
+    })
+
     /* xdescribe('control()', function() {
 
     }) */
@@ -1073,6 +1163,55 @@ describe('KEYBOARD.JS', function() {
     })
 
     describe('AUXILIARY METHODS', function() {
+        describe('measureKeyboardFrame()', function() {
+            beforeAll(() => {
+                mainTestDiv = document.createElement('div');
+                mainTestDiv.setAttribute('id', 'main-element');
+                mainTestDiv.style.opacity = '0';
+                document.body.appendChild(mainTestDiv);
+            })
+
+            beforeEach(() => {
+                keyboard = new Keyboard('main-element', 'es-ES');
+                keyboard.init();
+            })
+
+            it('should return "ok" if the keyboard is being initialized within a container equal or bigger than 200px wide', function() {
+                mainTestDiv.style.width = "350px";
+                const sizingResult = keyboard.measureKeyboardFrame();
+                mainTestDiv.style.width = "201px";
+                const sizingResult2 = keyboard.measureKeyboardFrame();
+                mainTestDiv.style.width = "1500px";
+                const sizingResult3 = keyboard.measureKeyboardFrame();
+
+                expect(sizingResult).toBe('ok');
+                expect(sizingResult2).toBe('ok');
+                expect(sizingResult3).toBe('ok');
+            })
+
+            it('should return "ko" if the keyboard is being initialized within a container smaller than 200px wide', function() {
+                mainTestDiv.style.width = "199px";
+                const sizingResult = keyboard.measureKeyboardFrame();
+                mainTestDiv.style.width = "10px";
+                const sizingResult2 = keyboard.measureKeyboardFrame();
+                mainTestDiv.style.width = "125px";
+                const sizingResult3 = keyboard.measureKeyboardFrame();
+
+                expect(sizingResult).toBe('ko');
+                expect(sizingResult2).toBe('ko');
+                expect(sizingResult3).toBe('ko');
+            })
+
+            afterEach(() => {
+                keyboard = null;
+            })
+
+            afterAll(() => {
+                mainTestDiv.remove();
+                mainTestDiv = null;
+            })
+        })
+
         describe('manageLayers() method', function() {
             beforeAll(() => {
                 mainTestDiv = document.createElement('div');
@@ -1091,6 +1230,7 @@ describe('KEYBOARD.JS', function() {
                 capsKeyboard = document.querySelector('#main-element .keyboard--capitalized');
                 shiftKeyboard = document.querySelector('#main-element .keyboard--shifted');
                 altKeyboard = document.querySelector('#main-element .keyboard--alternated');
+                emojiKeyboard = document.querySelector('#main-element .keyboard--emotional');
             })
 
             it('should hide all keyboards except the "normal" version if called with "normal"', function() {
@@ -1105,6 +1245,8 @@ describe('KEYBOARD.JS', function() {
                 expect(shiftKeyboard.classList.contains('hide')).toBeTrue();
                 expect(altKeyboard.classList.contains('show')).toBeFalse();
                 expect(altKeyboard.classList.contains('hide')).toBeTrue();
+                expect(emojiKeyboard.classList.contains('show')).toBeFalse();
+                expect(emojiKeyboard.classList.contains('hide')).toBeTrue();
             })
 
             it('should hide all keyboards except the "capitalized" version if called with "capitalized"', function() {
@@ -1118,6 +1260,8 @@ describe('KEYBOARD.JS', function() {
                 expect(shiftKeyboard.classList.contains('hide')).toBeTrue();
                 expect(altKeyboard.classList.contains('show')).toBeFalse();
                 expect(altKeyboard.classList.contains('hide')).toBeTrue();
+                expect(emojiKeyboard.classList.contains('show')).toBeFalse();
+                expect(emojiKeyboard.classList.contains('hide')).toBeTrue();
             })
 
             it('should hide all keyboards except the "shifted" version if called with "shifted"', function() {
@@ -1131,6 +1275,8 @@ describe('KEYBOARD.JS', function() {
                 expect(shiftKeyboard.classList.contains('hide')).toBeFalse();
                 expect(altKeyboard.classList.contains('show')).toBeFalse();
                 expect(altKeyboard.classList.contains('hide')).toBeTrue();
+                expect(emojiKeyboard.classList.contains('show')).toBeFalse();
+                expect(emojiKeyboard.classList.contains('hide')).toBeTrue();
             })
 
             it('should hide all keyboards except the "alternated" version if called with "alternated"', function() {
@@ -1144,6 +1290,23 @@ describe('KEYBOARD.JS', function() {
                 expect(shiftKeyboard.classList.contains('hide')).toBeTrue();
                 expect(altKeyboard.classList.contains('show')).toBeTrue();
                 expect(altKeyboard.classList.contains('hide')).toBeFalse();
+                expect(emojiKeyboard.classList.contains('show')).toBeFalse();
+                expect(emojiKeyboard.classList.contains('hide')).toBeTrue();
+            })
+
+            it('should hide all keyboards except the "emotional" version if called with "emotional"', function() {
+                keyboard.manageLayers('emotional');
+    
+                expect(normalKeyboard.classList.contains('show')).toBeFalse();
+                expect(normalKeyboard.classList.contains('hide')).toBeTrue();
+                expect(capsKeyboard.classList.contains('show')).toBeFalse();
+                expect(capsKeyboard.classList.contains('hide')).toBeTrue();
+                expect(shiftKeyboard.classList.contains('show')).toBeFalse();
+                expect(shiftKeyboard.classList.contains('hide')).toBeTrue();
+                expect(altKeyboard.classList.contains('show')).toBeFalse();
+                expect(altKeyboard.classList.contains('hide')).toBeTrue();
+                expect(emojiKeyboard.classList.contains('show')).toBeTrue();
+                expect(emojiKeyboard.classList.contains('hide')).toBeFalse();
             })
 
             afterEach(() => {
