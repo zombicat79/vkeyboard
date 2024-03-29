@@ -4,7 +4,7 @@ const spanishMap = {
         [186, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 39, 161, "Backspace"],
         ["Tab", 113, 119, 101, 114, 116, 121, 117, 105, 111, 112, "*96", 43],
         ["Caps", 97, 115, 100, 102, 103, 104, 106, 107, 108, 241, "*180", 231, "Enter"],
-        ["Shift", "&lt;", 122, 120, 99, 118, 98, 110, 109, 44, 46, 45, "Shift"],
+        ["Shift", "&lt", 122, 120, 99, 118, 98, 110, 109, 44, 46, 45, "Shift"],
         ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ],
     capitalized: [
@@ -23,7 +23,7 @@ const spanishMap = {
     ],
     alternated: [
         [92, 124, 64, 35, 162, 236, 170, 246, 34, 34, "&ne;", "*180", 39, "Backspace"],
-        ["Tab", "&oelig;", 230, 128, 174, 134, 165, null, null, 248, "&pi;", 91, 93],
+        ["Tab", "&oelig;", 230, 128, 174, null, 165, null, null, 248, "&pi;", 91, 93],
         ["Caps", 229, "&int;", "&part;", "&fnof;", "&#63743;", "&trade;", 244, 245, null, 126, 123, 125, "Enter"],
         ["Shift", "&le;", "&Omega;", "&sum;", 184, "&radic;", 223, null, 181, "&bdquo;", null, null, "Shift"],
         ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
@@ -259,9 +259,9 @@ const russianMap = {
         ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ],
     alternated: [
-        [null, null, 178, 179, null, null, null, 123, 91, 93, 125, 92, null, "Backspace"],
+        [null, null, 178, 179, null, "&amp;", null, 123, 91, 93, 125, 92, null, "Backspace"],
         ["Tab", 64, null, 128, null, null, null, null, null, null, null, null, 126, null],
-        ["Caps", null, null, null, null, null, null, null, null, null, null, null, "Enter"],
+        ["Caps", "&lt;", "&gt;", null, null, null, null, null, null, null, null, null, "Enter"],
         ["Shift", 124, null, null, null, null, null, null, 181, null, null, null, "Shift"],
         ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ],

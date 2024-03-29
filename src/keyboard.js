@@ -30,6 +30,7 @@ class Keyboard {
         this.armedBtns = 0;
         this.output = "";
         this.screen = null;
+        this.auxPanel = null;
         this.graphModifier = null;
         this.initReport = [];
 
@@ -91,8 +92,11 @@ class Keyboard {
         const initElement = document.getElementById(this.target);
         if (!initElement) throw new Error('Keyboard instantiated on an inexistent DOM Node');
 
+        const initMeasurement = this.measureKeyboardFrame();
+
         const childrenElements = [
             document.createElement('textarea'),
+            document.createElement('div'),
             document.createElement('div'),
             document.createElement('div'),
             document.createElement('div'),
@@ -121,6 +125,11 @@ class Keyboard {
                     el.classList.add('keyboard--emotional', 'hide');
                     break;
             }
+            if (index === 6) {
+                this.auxPanel = el;
+                el.classList.remove('keyboard');
+                el.classList.add('aux-panel', 'hide');
+            }
 
             const langCode = this.map.language.match(/[A-Z]{2}$/)
             el.classList.add(`keyboard--${langCode[0]}`);
@@ -128,17 +137,39 @@ class Keyboard {
             initElement.appendChild(el);
         });
 
+        if (initMeasurement === 'ko') {
+            const initAuxMethod1 = this.displayMessage.bind(this);
+            const initAuxMethod2 = this.manageLayers.bind(this);
+            initAuxMethod1('insufficient-width');
+            initAuxMethod2('aux');
+            return false;
+        }
+
         return this.mount();
     }
 
     measureKeyboardFrame() {
         const size = document.getElementById(this.target).offsetWidth;
-        console.log(size)
         if (size < 200) {
             return "ko";
         }
         
         return "ok";
+    }
+
+    displayMessage(...params) {
+        if (params.length !== 1) return undefined;
+        if (typeof params[0] !== 'string') return undefined;
+
+        switch(params[0]) {
+            case "insufficient-width":
+                this.auxPanel.innerText = 'Container too small. Keyboard requires at least 200px width to be initialized.';
+                break;
+            default:
+                throw new Error('Message type not recognized');
+        }
+
+        return params[0];
     }
 
     mount() {
@@ -247,6 +278,7 @@ class Keyboard {
         if (btnClasses) {
             switch(true) {
                 case btnClasses.includes('standard'):
+                case btnClasses.includes('emoji'):
                     if (btn.dataset.content === "" || btn.dataset.content === "null") {
                         action = null;
                     } else if (/^\*/.test(btn.dataset.content)) {
@@ -255,6 +287,11 @@ class Keyboard {
                             method(btn.innerHTML);
                         });
                         action = 'writeAux';
+                    /* } else if (/^&\w+/.test(btn.dataset.content)) {
+                        btn.addEventListener('click', () => {
+                            this.screen.innerHTML = this.screen.innerHTML + btn.dataset.content;
+                            this.output = this.screen.innerHTML;
+                        }); */
                     } else {
                         const method = this.write.bind(this);
                         btn.addEventListener('click', function() {
@@ -425,6 +462,16 @@ class Keyboard {
                     }
                 })
                 break;
+            case 'aux':
+                deactivatedLayers = keyboardLayers.map((layer) => {
+                    if (layer.classList.contains('aux-panel')) {
+                        layer.classList.remove('hide');
+                        layer.classList.add('show');
+                    } else {
+                        return layer;
+                    }
+                })
+                break;
         }
 
         deactivatedLayers.forEach((layer) => {
@@ -460,6 +507,9 @@ class Keyboard {
                 this.output += processedChar; 
             }
         } else {
+            if (payload === '&lt;') payload = "<";
+            if (payload === '&gt;') payload = ">";
+            if (payload === '&amp;') payload = "&";
             this.output += payload;
         }
 

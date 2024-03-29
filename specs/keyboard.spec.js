@@ -8,6 +8,8 @@ describe('KEYBOARD.JS', function() {
 
     let mainTestDiv;
     let auxTestDiv;
+    let tertiaryTestDiv;
+    let anotherTestDiv;
 
     let normalKeyboard;
     let capsKeyboard;
@@ -152,6 +154,10 @@ describe('KEYBOARD.JS', function() {
             expect(typeof sizingResult).toBe("string");
         })
 
+        it('should have a displayMessage() method', function() {
+            expect(keyboard.displayMessage('insufficient-width')).toBeTruthy();
+        })
+
         it('should have a manageLayers() method', function() {
             expect(keyboard.manageLayers('alternated')).toBeTrue();
         })
@@ -177,6 +183,8 @@ describe('KEYBOARD.JS', function() {
 
     describe('init()', function() {
         let initialization;
+        let initialization3;
+        let initialization4;
         
         beforeAll(() => {
             mainTestDiv = document.createElement('div');
@@ -193,6 +201,23 @@ describe('KEYBOARD.JS', function() {
             document.body.appendChild(auxTestDiv);
 
             keyboard2 = new Keyboard('whatever-wrapper', 'it-IT');
+
+            tertiaryTestDiv = document.createElement('div');
+            tertiaryTestDiv.setAttribute('id', 'keyboard-frame');
+            tertiaryTestDiv.style.width = "130px";
+            tertiaryTestDiv.style.opacity = '0';
+            document.body.appendChild(tertiaryTestDiv);
+
+            anotherTestDiv = document.createElement('div');
+            anotherTestDiv.setAttribute('id', 'keyboard-container');
+            anotherTestDiv.style.width = "500px";
+            anotherTestDiv.style.opacity = '0';
+            document.body.appendChild(anotherTestDiv);
+        })
+
+        beforeEach(() => {
+            keyboard3 = new Keyboard('keyboard-frame', 'german');
+            keyboard4 = new Keyboard('keyboard-container', 'french');
         })
 
         it('should throw an error if Keyboard was called on a DOM element that does not exist', function() {
@@ -248,7 +273,7 @@ describe('KEYBOARD.JS', function() {
             expect(Array.from(mainTestDiv.children)[3].classList.contains("keyboard--ES")).toBeTruthy();
             expect(Array.from(mainTestDiv.children)[4].classList.contains("keyboard--ES")).toBeTruthy();
             expect(Array.from(mainTestDiv.children)[5].classList.contains("keyboard--ES")).toBeTruthy();
-            expect(Array.from(mainTestDiv.children)[6].classList.contains("keyboard--ES")).toBeFalsy();
+            expect(Array.from(mainTestDiv.children)[6].classList.contains("keyboard--ES")).toBeTruthy();
         })
 
         it('2nd child element should get class attributes of "keyboard--normal" and "show"', function() {
@@ -286,32 +311,74 @@ describe('KEYBOARD.JS', function() {
             expect(Array.from(mainTestDiv.children)[5].classList.contains("show")).toBeFalsy();
         })
 
-        it('7h child element should get class attributes of "info-panel" and "hide"', function() {
-            expect(Array.from(mainTestDiv.children)[5].classList.contains("info-panel")).toBeTruthy();
-            expect(Array.from(mainTestDiv.children)[5].classList.contains("hide")).toBeTruthy();
-            expect(Array.from(mainTestDiv.children)[5].classList.contains("keyboard--normal")).toBeFalsy();
-            expect(Array.from(mainTestDiv.children)[5].classList.contains("show")).toBeFalsy();
+        it('7h child element should get class attributes of "aux-panel" and "hide"', function() {
+            expect(Array.from(mainTestDiv.children)[6].classList.contains("aux-panel")).toBeTruthy();
+            expect(Array.from(mainTestDiv.children)[6].classList.contains("hide")).toBeTruthy();
+            expect(Array.from(mainTestDiv.children)[6].classList.contains("keyboard")).toBeFalsy();
+            expect(Array.from(mainTestDiv.children)[6].classList.contains("show")).toBeFalsy();
         })
 
         it('should call the measureKeyboardFrame() method', function() {
-            spyOn(keyboard, 'measureKeyboardFrame');
-            spyOn(keyboard2, 'measureKeyboardFrame');
+            spyOn(keyboard3, 'measureKeyboardFrame');
+            spyOn(keyboard4, 'measureKeyboardFrame');
 
-            expect(keyboard.measureKeyboardFrame).toHaveBeenCalled();
-            expect(keyboard.measureKeyboardFrame).toHaveBeenCalledTimes(1);
-            expect(keyboard2.measureKeyboardFrame).toHaveBeenCalled();
-            expect(keyboard2.measureKeyboardFrame).toHaveBeenCalledTimes(1);
+            keyboard3.init();
+            keyboard4.init();
+
+            expect(keyboard3.measureKeyboardFrame).toHaveBeenCalled();
+            expect(keyboard3.measureKeyboardFrame).toHaveBeenCalledTimes(1);
+            expect(keyboard4.measureKeyboardFrame).toHaveBeenCalled();
+            expect(keyboard4.measureKeyboardFrame).toHaveBeenCalledTimes(1);
         })
 
-        it('should call the subsequent mount() method', function() {
-            expect(initialization).toBe(true);
+        it('should call the displayMessage() method, if the keyboard container is too small', function() {
+            spyOn(keyboard3, 'displayMessage');
+            spyOn(keyboard4, 'displayMessage');
+
+            keyboard3.init();
+            keyboard4.init();
+
+            expect(keyboard3.displayMessage).toHaveBeenCalled();
+            expect(keyboard3.displayMessage).toHaveBeenCalledTimes(1);
+            expect(keyboard3.displayMessage).toHaveBeenCalledWith('insufficient-width');
+            expect(keyboard4.displayMessage).not.toHaveBeenCalled();
+        })
+
+        it('should call the manageLayers() method passing "aux" as parameter, if the keyboard container is too small' , function() {
+            spyOn(keyboard3, 'manageLayers');
+            spyOn(keyboard4, 'manageLayers');
+
+            keyboard3.init();
+            keyboard4.init();
+
+            expect(keyboard3.manageLayers).toHaveBeenCalled();
+            expect(keyboard3.manageLayers).toHaveBeenCalledTimes(1);
+            expect(keyboard3.manageLayers).toHaveBeenCalledWith('aux');
+            expect(keyboard4.manageLayers).not.toHaveBeenCalled();
+        });
+
+        it('should call the subsequent mount() method, if the width of the keyboard container is correct', function() {
+            initialization3 = keyboard3.init();
+            initialization4 = keyboard4.init();
+            
+            expect(initialization3).toBeFalsy();
+            expect(initialization4).toBe(true);
+        })
+
+        afterEach(() => {
+            keyboard3 = null;
+            keyboard4 = null;
         })
 
         afterAll(() => {
             mainTestDiv.remove();
             auxTestDiv.remove();
+            tertiaryTestDiv.remove();
+            anotherTestDiv.remove();
             mainTestDiv = null;
             auxTestDiv = null;
+            anotherTestDiv = null;
+            tertiaryTestDivTestDiv = null;
             keyboard = null;
             keyboard2 = null;
         })
@@ -1209,6 +1276,52 @@ describe('KEYBOARD.JS', function() {
             afterAll(() => {
                 mainTestDiv.remove();
                 mainTestDiv = null;
+            })
+        })
+
+        describe('displayMessage() method', function() {
+            beforeAll(() => {
+                auxTestDiv = document.createElement('div');
+                auxTestDiv.setAttribute('id', 'keyboard-frame');
+                auxTestDiv.style.opacity = '0';
+                document.body.appendChild(auxTestDiv);
+            })
+
+            beforeEach(() => {
+                keyboard = new Keyboard('keyboard-frame', 'en-US');
+                keyboard.init();
+            })
+
+            it('should receive 1 string parameter', function() {
+                const call1 = keyboard.displayMessage();
+                const call2 = keyboard.displayMessage('insufficient-width');
+                const call3 = keyboard.displayMessage(4);
+                const call4 = keyboard.displayMessage('insufficient-width', 'fantastic');
+
+                expect(call1).toBeUndefined();
+                expect(call2).toBe('insufficient-width');
+                expect(call3).toBeUndefined();
+                expect(call4).toBeUndefined();
+            })
+
+            it('should match the accepted string paramater with one corresponding output string', function() {
+                expect(function() {keyboard.displayMessage('test-message')}).toThrow();
+                expect(function() {keyboard.displayMessage('insufficient-width')}).not.toThrow();
+            })
+
+            it('should inject the output string into the current keyboard instance AuxPanel', function() {
+                keyboard.displayMessage('insufficient-width');
+
+                expect(keyboard.auxPanel.innerText).toBe('Container too small. Keyboard requires at least 200px width to be initialized.')
+            })
+
+            afterEach(() => {
+                keyboard = null;
+            })
+
+            afterAll(() => {
+                auxTestDiv.remove();
+                auxTestDiv = null;
             })
         })
 

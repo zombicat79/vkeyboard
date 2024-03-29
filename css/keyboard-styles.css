@@ -6,7 +6,16 @@
 }
 
 .screen {
+   width: calc(100% - 8px);
+}
 
+.aux-panel {
+    border: 3px solid red;
+    text-align: center;
+    padding: 10px;
+}
+.aux-panel.show {
+    display: block;
 }
 
 
