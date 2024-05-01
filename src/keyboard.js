@@ -30,6 +30,7 @@ class Keyboard {
         this.armedBtns = 0;
         this.output = "";
         this.screen = null;
+        this.screenCursorPosition = null;
         this.auxPanel = null;
         this.graphModifier = null;
         this.initReport = [];
@@ -106,8 +107,15 @@ class Keyboard {
         
         childrenElements.forEach((el, index) => {
             index === 0 ? el.classList.add('screen') : el.classList.add('keyboard');
-            index === 0 ? el.readOnly = true : null;
+            // index === 0 ? el.readOnly = true : null;
             index === 0 ? this.screen = el : null;
+
+            if (index === 0) {
+                const method = this.getScreenCursorPosition.bind(this);
+                el.addEventListener('click', function(event) {
+                    method(event);
+                });
+            }
             switch(index) {
                 case 1:
                     el.classList.add('keyboard--normal', 'show');
@@ -482,6 +490,15 @@ class Keyboard {
         });
 
         return true;
+    }
+
+    getScreenCursorPosition(event) {
+        const screen = event.target || event;
+        const position = screen.selectionStart;
+        this.screenCursorPosition = position;
+        
+        console.log(position);
+        return position;
     }
 
     write(payload) {

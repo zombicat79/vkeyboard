@@ -162,6 +162,12 @@ describe('KEYBOARD.JS', function() {
             expect(keyboard.manageLayers('alternated')).toBeTrue();
         })
 
+        it('should have a getScreenCursorPosition() method', function() {
+            const screen = document.querySelector('#main-element .screen');
+            
+            expect(keyboard.getScreenCursorPosition(screen)).toBeGreaterThanOrEqual(0);
+        })
+
         it('should have a composeChar() method', function() {
             expect(keyboard.composeChar('u', 2)).not.toBeUndefined();
         })
@@ -243,8 +249,22 @@ describe('KEYBOARD.JS', function() {
             expect(Array.from(mainTestDiv.children)[1].classList.contains("screen")).toBeFalsy();
         })
 
-        it('1st child element should get a readonly attribute', function() {
-            expect(Array.from(mainTestDiv.children)[0].readOnly).toBeTrue();
+        it('1st child element should call the "getScreenCursorPosition()" every time it gets clicked', function() {
+            spyOn(keyboard3, 'getScreenCursorPosition');
+            spyOn(keyboard4, 'getScreenCursorPosition');
+
+            keyboard3.init();
+            keyboard4.init();
+            const screen3 = document.querySelector('#keyboard-frame .screen');
+            const screen4 = document.querySelector('#keyboard-container .screen');
+            
+            screen3.click();
+            screen4.click();
+
+            expect(keyboard3.getScreenCursorPosition).toHaveBeenCalled();
+            expect(keyboard3.getScreenCursorPosition).toHaveBeenCalledTimes(1);
+            expect(keyboard4.getScreenCursorPosition).toHaveBeenCalled();
+            expect(keyboard4.getScreenCursorPosition).toHaveBeenCalledTimes(1);
         })
 
         it('2nd to 7th children elements should be of type "div"', function() {
@@ -1427,6 +1447,44 @@ describe('KEYBOARD.JS', function() {
             })
     
             afterAll(() => {
+                mainTestDiv.remove();
+                mainTestDiv = null;
+            })
+        })
+
+        describe('getScreenCursorPosition()', function() {
+            let screen;
+            let position;
+            
+            beforeAll(() => {
+                mainTestDiv = document.createElement('div');
+                mainTestDiv.setAttribute('id', 'main-element');
+                mainTestDiv.style.opacity = '0';
+                document.body.appendChild(mainTestDiv);
+                keyboard6 = new Keyboard('main-element', 'es-ES');
+                keyboard6.init();
+                screen = document.querySelector('#main-element .screen');
+            })
+
+            beforeEach(() => {
+                position = keyboard6.getScreenCursorPosition(screen);
+            })
+
+            it('should return a positive number every time it gets called', function() {
+                expect(typeof position).toBe('number');
+                expect(position).toBeGreaterThanOrEqual(0);
+            })
+
+            it ('should update the "screenCursorPosition" property of the instantiated keyboard state', function() {
+                expect(keyboard6.screenCursorPosition).toBe(position);
+            })
+
+            afterEach(() => {
+                position = null;
+            })
+
+            afterAll(() => {
+                keyboard6 = null;
                 mainTestDiv.remove();
                 mainTestDiv = null;
             })

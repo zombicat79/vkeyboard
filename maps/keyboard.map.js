@@ -1,3 +1,5 @@
+// LANGUAGE KEYBOARD MAPPING
+
 const spanishMap = {
     language: 'es-ES',
     normal: [
@@ -273,3 +275,53 @@ const russianMap = {
         ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ]
 };
+
+
+// EMOJI KEYS UNFOLDING ARRAYS
+// &#x
+
+const happyArray = [
+    "&#x1F642", "&#x1F600", "&#x1F601", "&#x1F602", "&#x1F603", "&#x1F604", "&#x1F605", "&#x1F606", "&#x1F607",
+    "&#x1F60C"
+]
+
+const lovelyArray = [
+    "&#x1F970", "&#x1F60D", "&#x1F617", "&#x1F618", "&#x1F619", "&#x1F61A"
+]
+
+const playfulArray = [
+    "&#x1F60B", "&#x1F608", "&#x1F609", "&#x1F60E", "&#x1F60F", "&#x1F61B", "&#x1F61C", "&#x1F61D"
+]
+
+const kindArray = [
+    "&#x1F917", "&#x1F60A"
+]
+
+const neutralArray = [
+    "&#x1F610", "&#x1F611", "&#x1F62C", "&#x1F62E", "&#x1F62F", "&#x1F632", "&#x1F633", "&#x1F636"
+]
+
+const exhaustedArray = [
+    "&#x1F62A", "&#x1F629", "&#x1F62B", "&#x1F634"
+]
+
+const illArray = [
+    "&#x1F637", "&#x1F616", "&#x1F623", "&#x1F630", "&#x1F631", "&#x1F635"
+]
+
+const sadArray = [
+    "&#x1F615", "&#x1F613", "&#x1F614", "&#x1F61E", "&#x1F61F", "&#x1F622", "&#x1F625", "&#x1F626", "&#x1F627", 
+    "&#x1F628", "&#x1F62D"
+]
+
+const angryArray = [
+    "&#x1F624", "&#x1F612", "&#x1F620", "&#x1F621"
+]
+
+const catfaceArray = [
+    "&#x1F63A", "&#x1F638", "&#x1F639", "&#x1F63B", "&#x1F63C", "&#x1F63D", "&#x1F63E", "&#x1F63F", "&#x1F640"
+]
+
+const monkeyfaceArray = [
+    "&#x1F648", "&#x1F649", "&#x1F64A"
+]
