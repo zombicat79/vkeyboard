@@ -32,7 +32,7 @@ const spanishMap = {
     ],
     emotional: [
         [null, null, null, null, null, null, null, null, null, null, null, null, null, "Backspace"],
-        ["Tab", "&#x1F642", "&#x1F970", "&#x1F60B", "&#x1F917", "&#x1F610", "&#x1F62A", "&#x1F637", "&#x1F615", "&#x1F624", "&#x1F63A", "&#x1F648", "&#x1F4A9"],
+        ["Tab", "&#x1F642", "&#x1F970", "&#x1F60B", "&#x1F610", "&#x1F62A", "&#x1F637", "&#x1F615", "&#x1F624", "&#x1F9DF", "&#x1F63A", "&#x1F648", "&#x1F4A9"],
         ["Caps", "&#x1F44B", "&#x1F471", "&#x1F46A", "&#x1F415", "&#x1F332", "&#x1F355", "&#x1F377", "&#x1F30D", "&#x1F3E0", "&#x1F697", "&#x1F570", "&#x1F326", "Enter"],
         ["Shift", "&#x1F389", "&#x1F3AD", "&#x26BD", "&#x1F947", "&#x1F3B2", "&#x1F454", "&#x1F3B5", "&#x1F4BB", "&#x1F58C", "&#x1F4EA", "&#x1F4B5", "Shift"],
         ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
@@ -282,40 +282,48 @@ const russianMap = {
 
 const happyArray = [
     "&#x1F642", "&#x1F600", "&#x1F601", "&#x1F602", "&#x1F603", "&#x1F604", "&#x1F605", "&#x1F606", "&#x1F607",
-    "&#x1F60C"
+    "&#x1F60C", "&#x1F643", "&#x1F911", "&#x1F920", "&#x1F929", "&#x1F4AC", "&#x1F4AD", "&#x1F5E8", "&#x1F5EF"
 ]
 
 const lovelyArray = [
-    "&#x1F970", "&#x1F60D", "&#x1F617", "&#x1F618", "&#x1F619", "&#x1F61A"
+    "&#x1F970", "&#x1F60D", "&#x1F617", "&#x1F618", "&#x1F619", "&#x1F61A", "&#x1F493", "&#x1F494", "&#x1F495", 
+    "&#x1F496", "&#x1F497", "&#x1F498", "&#x1F499", "&#x1F49A", "&#x1F49B", "&#x1F49C", "&#x1F49D", "&#x1F49E", 
+    "&#x1F49F", "&#x1F5A4", "&#x1F90D", "&#x1F90E", "&#x1F9E1", "&#x1F48B", "&#x1F917", "&#x1F60A"
 ]
 
 const playfulArray = [
-    "&#x1F60B", "&#x1F608", "&#x1F609", "&#x1F60E", "&#x1F60F", "&#x1F61B", "&#x1F61C", "&#x1F61D"
-]
-
-const kindArray = [
-    "&#x1F917", "&#x1F60A"
+    "&#x1F60B", "&#x1F608", "&#x1F609", "&#x1F60E", "&#x1F60F", "&#x1F61B", "&#x1F61C", "&#x1F61D", "&#x1F913", 
+    "&#x1F923", "&#x1F924", "&#x1F92A", "&#x1F92D", "&#x1F973"
 ]
 
 const neutralArray = [
-    "&#x1F610", "&#x1F611", "&#x1F62C", "&#x1F62E", "&#x1F62F", "&#x1F632", "&#x1F633", "&#x1F636"
+    "&#x1F610", "&#x1F611", "&#x1F62C", "&#x1F62E", "&#x1F62F", "&#x1F632", "&#x1F633", "&#x1F636", "&#x1F644",
+    "&#x1F910", "&#x1F914", "&#x1F925", "&#x1F928", "&#x1F92B", "&#x1F9D0"
 ]
 
 const exhaustedArray = [
-    "&#x1F62A", "&#x1F629", "&#x1F62B", "&#x1F634"
+    "&#x1F62A", "&#x1F629", "&#x1F62B", "&#x1F634", "&#x1F92F", "&#x1F971", "&#x1F975", "&#x1F976", "&#x1F480", 
+    "&#x1F4A4"
 ]
 
-const illArray = [
-    "&#x1F637", "&#x1F616", "&#x1F623", "&#x1F630", "&#x1F631", "&#x1F635"
+const sickArray = [
+    "&#x1F637", "&#x1F616", "&#x1F623", "&#x1F630", "&#x1F631", "&#x1F635", "&#x1F912", "&#x1F915", "&#x1F922", 
+    "&#x1F927", "&#x1F92E", "&#x1F974", "&#x1F489", "&#x1F48A"
 ]
 
 const sadArray = [
     "&#x1F615", "&#x1F613", "&#x1F614", "&#x1F61E", "&#x1F61F", "&#x1F622", "&#x1F625", "&#x1F626", "&#x1F627", 
-    "&#x1F628", "&#x1F62D"
+    "&#x1F628", "&#x1F62D", "&#x1F641", "&#x1F97A"
 ]
 
 const angryArray = [
-    "&#x1F624", "&#x1F612", "&#x1F620", "&#x1F621"
+    "&#x1F624", "&#x1F612", "&#x1F620", "&#x1F621", "&#x1F47F", "&#x1F92C"
+]
+
+const fantasyArray = [
+    "&#x1F9DF", "&#x1F9B8", "&#x1F9B9", "&#x1F9D9", "&#x1F9DA", "&#x1F9DB", "&#x1F9DC", "&#x1F9DD", "&#x1F9DE", 
+    "&#x1F479", "&#x1F47A", "&#x1F47B", "&#x1F47D", "&#x1F47E", "&#x1F916", "&#x1F921", "&#x1F385", "&#x1F47C", 
+    "&#x1F936"
 ]
 
 const catfaceArray = [
@@ -324,4 +332,87 @@ const catfaceArray = [
 
 const monkeyfaceArray = [
     "&#x1F648", "&#x1F649", "&#x1F64A"
+]
+
+const bodyArray = [
+    "&#x1F4A9", "&#x1F440", "&#x1F441", "&#x1F442", "&#x1F443", "&#x1F444", "&#x1F445", "&#x1F463", "&#x1F4AA",
+    "&#x1F9B4", "&#x1F9B5", "&#x1F9B6", "&#x1F9B7", "&#x1F9BB", "&#x1F9BC", "&#x1F9BD", "&#x1F9BE", "&#x1F9BF", 
+    "&#x1F9E0"
+]
+
+const handgesturesArray = [
+    "&#x1F44B", "&#x270B", "&#x1F590", "&#x1F596", "&#x1F91A", "&#x261D", "&#x1F446", "&#x1F447", "&#x1F448", 
+    "&#x1F449", "&#x1F595", "&#x270A", "&#x1F44A", "&#x1F44D", "&#x1F44E", "&#x1F91B", "&#x1F91C", "&#x270C", 
+    "&#x1F44C", "&#x1F90F", "&#x1F918", "&#x1F919", "&#x1F91E", "&#x1F91F", "&#x270D", "&#x1F44F", "&#x1F450", 
+    "&#x1F485", "&#x1F91D", "&#x1F932", "&#x1F933", "&#x1F645", "&#x1F646", "&#x1F647", "&#x1F64B", "&#x1F64C",
+    "&#x1F64D", "&#x1F64E", "&#x1F64F", "&#x1F926", "&#x1F937", "&#x1F9CF"
+]
+
+const personArray = [
+    "&#x1F471", "&#x1F46E", "&#x1F470", "&#x1F472", "&#x1F473", "&#x1F477", "&#x1F478", "&#x1F574", "&#x1F575", 
+    "&#x1F481", "&#x1F482", "&#x1F934", "&#x1F935", "&#x1F930", "&#x1F464", "&#x1F466", "&#x1F467", "&#x1F468", 
+    "&#x1F469", "&#x1F471", "&#x1F474", "&#x1F475", "&#x1F476", "&#x1F9CD", "&#x1F9CE", "&#x1F9D1", "&#x1F9D2", 
+    "&#x1F9D3", "&#x1F9D4", "&#x1F9D5", "&#x1F9D6", "&#x1F9B0", "&#x1F9B1", "&#x1F9B2", "&#x1F9B3", "&#x1F486", 
+    "&#x1F487", "&#x1F5E3"
+]
+
+const peopleArray = [
+    "&#x1F46A", "&#x1F46F", "&#x1F46B", "&#x1F46C", "&#x1F46D", "&#x1F46F", "&#x1F491", "&#x1F931", "&#x1F465"
+]
+
+const cosmicArray = [
+    "&#x1F30D", "&#x1F4AB"
+]
+
+const buildingArray = [
+    "&#x1F3E0", "&#x1F488", inside, "&#x1F5BC"
+]
+
+const timeArray = [
+    "&#x1F570", "&#x1F550", "&#x1F551", "&#x1F552", "&#x1F553", "&#x1F554", "&#x1F555", "&#x1F556", "&#x1F557", 
+    "&#x1F558", "&#x1F559", "&#x1F55A", "&#x1F55B", "&#x1F55C", "&#x1F55D", "&#x1F55E", "&#x1F55F", "&#x1F560",
+    "&#x1F561", "&#x1F562", "&#x1F563", "&#x1F564", "&#x1F565", "&#x1F566", "&#x1F567"
+]
+
+const celebrationArray = [
+    "&#x1F389", "&#x1F483", "&#x1F57A", "&#x1F492", ""
+]
+
+const sportsArray = [
+    "&#x26BD", "&#x1F9D7", "&#x1F9D8"
+]
+
+const preciousArray = [
+    "&#x1F947", "&#x1F48D", "&#x1F48E"
+]
+
+const clothingArray = [
+    "&#x1F454", "&#x1F484"
+]
+
+const soundArray = [
+    "&#x1F3B5", "&#x1F4E2", "&#x1F4E3"
+]
+
+const officeArray = [
+    "&#x1F4BB", "&#x1F5A5", "&#x1F5C2", "&#x1F5C3", "&#x1F5C4", "&#x1F5D1", "&#x1F5D2", "&#x1F5D3", "&#x1F4BA",
+    "&#x1F4BC", "&#x1F4BD", "&#x1F4BE", "&#x1F4BF", "&#x1F4C0", "&#x1F4C1", "&#x1F4C2", "&#x1F4C5", "&#x1F4C6", 
+    "&#x1F4C7", "&#x1F4C8", "&#x1F4C9", "&#x1F4CA", "&#x1F4CB", "&#x1F4CC", "&#x1F4CD", "&#x1F4CE", "&#x1F4CF", 
+    "&#x1F4D0", "&#x1F4D1", "&#x1F4DB", "&#x1F4DE", "&#x1F4DF", "&#x1F4E0", "&#x1F4E1", "&#x1F50B", "&#x1F50C", 
+    "&#x1F587", "&#x1F4F1", "&#x1F4F2", "&#x1F4F3", "&#x1F4F4", "&#x1F4F5", "&#x1F4F6", "&#x1F5B2"
+]
+
+const writingArray = [
+    "&#x1F58C", "&#x1F58A", "&#x1F58B", "&#x1F58D", "&#x1F4C3", "&#x1F4C4", "&#x1F4D2", "&#x1F4D3", "&#x1F4D4", 
+    "&#x1F4D5", "&#x1F4D6", "&#x1F4D7", "&#x1F4D8", "&#x1F4D9", "&#x1F4DA", "&#x1F4DC", "&#x1F4DD"
+]
+
+const mailingArray = [
+    "&#x1F4EA", "&#x1F48C", "&#x1F5F3", "&#x1F4E4", "&#x1F4E5", "&#x1F4E6", "&#x1F4E7", "&#x1F4E8", 
+    "&#x1F4E9", "&#x1F4EB", "&#x1F4EC", "&#x1F4ED", "&#x1F4EE", "&#x1F4EF", "&#x1F4F0", "&#x1F5DE"
+]
+
+
+const toolArray = [
+    "&#x1F5DC", "&#x1F5DD", "&#x1F5E1"
 ]

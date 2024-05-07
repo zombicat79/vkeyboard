@@ -206,6 +206,7 @@
         grid-column: 28 / -1;
         grid-row: 2 / 3;
     }
+    .keyboard--ES .keyboard__button[data-content="&lt"],
     .keyboard--ES .keyboard__button[data-content="&lt;"],
     .keyboard--ES .keyboard__button[data-content="&gt;"],
     .keyboard--ES .keyboard__button[data-content="&le;"],

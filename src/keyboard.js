@@ -30,7 +30,7 @@ class Keyboard {
         this.armedBtns = 0;
         this.output = "";
         this.screen = null;
-        this.screenCursorPosition = null;
+        this.screenCursorPosition = [0, 0];
         this.auxPanel = null;
         this.graphModifier = null;
         this.initReport = [];
@@ -115,6 +115,9 @@ class Keyboard {
                 el.addEventListener('click', function(event) {
                     method(event);
                 });
+                /* el.addEventListener('blur', function() {
+                    this.screenCursorPosition = [null, null];
+                }) */
             }
             switch(index) {
                 case 1:
@@ -494,11 +497,27 @@ class Keyboard {
 
     getScreenCursorPosition(event) {
         const screen = event.target || event;
-        const position = screen.selectionStart;
-        this.screenCursorPosition = position;
+        const startPosition = screen.selectionStart;
+        const endPosition = screen.selectionEnd;
+        this.screenCursorPosition = [startPosition, endPosition];
         
-        console.log(position);
-        return position;
+        return [startPosition, endPosition];
+    }
+
+    injectContent(payload) {
+        if (typeof payload !== 'string') {
+            return false;
+        }
+
+        const previousOutput = this.output.split("");
+        const modificationStartIndex = this.screenCursorPosition[0];
+        const positionsToBeReplaced = this.screenCursorPosition[1] - this.screenCursorPosition[0];
+        previousOutput.splice(modificationStartIndex, positionsToBeReplaced, payload);
+        const newOutput = [...previousOutput].join("");
+        
+        this.screenCursorPosition = [this.screenCursorPosition[0]+1, positionsToBeReplaced+1];
+
+        return [this.output, payload, newOutput];
     }
 
     write(payload) {
@@ -521,13 +540,23 @@ class Keyboard {
                         processedChar = boundComposer(payload, 3);
                         break;
                 }
-                this.output += processedChar; 
+
+                if (!this.screenCursorPosition[0]) {
+                    this.output += processedChar;
+                } else  {
+                    this.output = this.injectContent(processedChar)[2];
+                }
             }
         } else {
             if (payload === '&lt;') payload = "<";
             if (payload === '&gt;') payload = ">";
             if (payload === '&amp;') payload = "&";
-            this.output += payload;
+
+            if (!this.screenCursorPosition[0]) {
+                this.output += payload;
+            } else  {
+                this.output = this.injectContent(payload)[2];
+            }
         }
 
         if (this.screen) {

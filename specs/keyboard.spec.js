@@ -164,12 +164,18 @@ describe('KEYBOARD.JS', function() {
 
         it('should have a getScreenCursorPosition() method', function() {
             const screen = document.querySelector('#main-element .screen');
+            const screenCursorPosition = keyboard.getScreenCursorPosition(screen);
             
-            expect(keyboard.getScreenCursorPosition(screen)).toBeGreaterThanOrEqual(0);
+            expect(screenCursorPosition[0]).toBeGreaterThanOrEqual(0);
+            expect(screenCursorPosition[1]).toBeGreaterThanOrEqual(0);
         })
 
         it('should have a composeChar() method', function() {
             expect(keyboard.composeChar('u', 2)).not.toBeUndefined();
+        })
+
+        it('should have an injectContent() method', function() {
+            expect(keyboard.injectContent("s")).toEqual(["", "s", "s"]);
         })
 
         xit('should have a control() method', function() {
@@ -1471,12 +1477,14 @@ describe('KEYBOARD.JS', function() {
             })
 
             it('should return a positive number every time it gets called', function() {
-                expect(typeof position).toBe('number');
-                expect(position).toBeGreaterThanOrEqual(0);
+                expect(typeof position).toBe('object');
+                expect([...position]).toEqual(position);
+                expect(position[0]).toBeGreaterThanOrEqual(0);
+                expect(position[1]).toBeGreaterThanOrEqual(0);
             })
 
             it ('should update the "screenCursorPosition" property of the instantiated keyboard state', function() {
-                expect(keyboard6.screenCursorPosition).toBe(position);
+                expect(keyboard6.screenCursorPosition).toEqual(position);
             })
 
             afterEach(() => {
@@ -1522,6 +1530,85 @@ describe('KEYBOARD.JS', function() {
                 keyboard = null;
                 keyboard2 = null;
                 keyboard3 = null;
+            })
+        })
+
+        describe('injectContent()' , function() {
+            beforeAll(() => {
+                auxTestDiv = document.createElement('div');
+                auxTestDiv.setAttribute('id', 'aux-element');
+                auxTestDiv.style.opacity = '0';
+                document.body.appendChild(auxTestDiv);
+                keyboard4 = new Keyboard('aux-element', 'spanish');
+                keyboard4.init();
+            })
+
+            it('should get 1 string argument called "payload"', function() {
+                expect(keyboard4.injectContent(34)).toBeFalse();
+                expect(keyboard4.injectContent(null)).toBeFalse();
+                expect(keyboard4.injectContent(['re'])).toBeFalse();
+                expect(keyboard4.injectContent({})).toBeFalse();
+                expect(keyboard4.injectContent('f')).toBeTruthy();
+                expect(keyboard4.injectContent('f')[1]).toBe('f');
+                expect(keyboard4.injectContent('&#x1F642')[1]).toBe('&#x1F642');
+            })
+
+            it('should create a new string, resulting of the modification of the current screen output', function() {
+                keyboard4.output = "hello world";
+                const operationResult = keyboard4.injectContent("s");
+                
+                expect(operationResult[0]).toBe("hello world");
+            })
+
+            it('the newly created string should be an injection of the "payload" into the current output, between the values set for "screenCursorPosition"', function() {
+                keyboard4.output = "Inject something into me";
+                keyboard4.screenCursorPosition = [6, 7];
+                const operationResult = keyboard4.injectContent("s");
+
+                keyboard4.screenCursorPosition = [16, keyboard4.output.length];
+                const operationResult2 = keyboard4.injectContent("");
+
+                keyboard4.screenCursorPosition = [7, 16];
+                const operationResult3 = keyboard4.injectContent("caffeine");
+
+                keyboard4.screenCursorPosition = [0, keyboard4.output.length];
+                const operationResult4 = keyboard4.injectContent("");
+
+                expect(operationResult[2]).toBe('Injectssomething into me');
+                expect(operationResult2[2]).toBe('Inject something');
+                expect(operationResult3[2]).toBe('Inject caffeine into me');
+                expect(operationResult4[2]).toBe('');
+            })
+
+            it ('should augment the current "screenCursorPosition" by one unit', function() {
+                keyboard4.output = "Hello world";
+                keyboard4.screenCursorPosition = [5, 6];
+                const operationResult = keyboard4.injectContent("s");
+
+                expect(operationResult[2]).toBe('Hellosworld');
+                expect(keyboard4.screenCursorPosition).toEqual([6, 2]);
+            })
+
+            it('should return an array containing the previous screen output, the modifying payload and the newly created string', function() {
+                keyboard4.output = "This test is going to be successful";
+                keyboard4.screenCursorPosition = [25, keyboard4.output.length];
+                const operationResult = keyboard4.injectContent("amazing");
+
+                keyboard4.screenCursorPosition = [0, 4];
+                const operationResult2 = keyboard4.injectContent("My");
+
+                expect(operationResult).toEqual(['This test is going to be successful', 'amazing', 'This test is going to be amazing']);
+                expect(operationResult2).toEqual(['This test is going to be successful', 'My', 'My test is going to be successful']);
+            })
+
+            afterEach(() => {
+                keyboard4.output = "";
+            })
+
+            afterAll(() => {
+                keyboard4 = null;
+                auxTestDiv.remove();
+                auxTestDiv = null;
             })
         })
     })
