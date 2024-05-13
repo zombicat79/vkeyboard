@@ -365,7 +365,16 @@ const cosmicArray = [
 ]
 
 const buildingArray = [
-    "&#x1F3E0", "&#x1F488", inside, "&#x1F5BC"
+    "&#x1F3E0", "&#x1F488", "inside", "&#x1F5BC"
+]
+
+const transportArray = [
+    "&#x1F697", "&#x1F680", "&#x1F681", "&#x1F682", "&#x1F683", "&#x1F684", "&#x1F685", "&#x1F686", "&#x1F687", 
+    "&#x1F688", "&#x1F689", "&#x1F68A", "&#x1F68B", "&#x1F68C", "&#x1F68D", "&#x1F68E", "&#x1F68F", "&#x1F690",
+    "&#x1F691", "&#x1F692", "&#x1F693", "&#x1F694", "&#x1F695", "&#x1F696", "&#x1F697", "&#x1F698", "&#x1F699",
+    "&#x1F69A", "&#x1F69B", "&#x1F69C", "&#x1F69D", "&#x1F69E", "&#x1F69F", "&#x1F6A0", "&#x1F6A1", "&#x1F6A2", 
+    "&#x1F6A3", "&#x1F6A4", "&#x1F6E5", "&#x1F6E9", "&#x1F6EB", "&#x1F6EC", "&#x1F6F0", "&#x1F6F3", "&#x1F6F4", 
+    "&#x1F6F5", "&#x1F6F6", "&#x1F6F7", "&#x1F6F8", "&#x1F6F9", "&#x1F6FA"
 ]
 
 const timeArray = [

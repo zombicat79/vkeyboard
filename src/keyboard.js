@@ -500,6 +500,7 @@ class Keyboard {
         const startPosition = screen.selectionStart;
         const endPosition = screen.selectionEnd;
         this.screenCursorPosition = [startPosition, endPosition];
+        console.log(this.screenCursorPosition)
         
         return [startPosition, endPosition];
     }
@@ -511,13 +512,29 @@ class Keyboard {
 
         const previousOutput = this.output.split("");
         const modificationStartIndex = this.screenCursorPosition[0];
-        const positionsToBeReplaced = this.screenCursorPosition[1] - this.screenCursorPosition[0];
+        const positionsToBeReplaced = (this.screenCursorPosition[1] - this.screenCursorPosition[0]);
         previousOutput.splice(modificationStartIndex, positionsToBeReplaced, payload);
         const newOutput = [...previousOutput].join("");
         
         this.screenCursorPosition = [this.screenCursorPosition[0]+1, positionsToBeReplaced+1];
 
         return [this.output, payload, newOutput];
+    }
+
+    extractContent() {
+        const previousOutput = this.output.split("");
+        const modificationStartIndex = this.screenCursorPosition[0];
+        const positionsToBeDeleted = (this.screenCursorPosition[1] - this.screenCursorPosition[0]);
+        if (!positionsToBeDeleted) {
+            previousOutput.splice(modificationStartIndex-1, 1);
+        } else {
+            previousOutput.splice(modificationStartIndex, positionsToBeDeleted);
+        }
+        const newOutput = [...previousOutput].join("");
+
+        this.screenCursorPosition = [this.screenCursorPosition[0]-1, this.screenCursorPosition[1]-1];
+
+        return [this.output, null, newOutput];
     }
 
     write(payload) {
@@ -554,7 +571,7 @@ class Keyboard {
 
             if (!this.screenCursorPosition[0]) {
                 this.output += payload;
-            } else  {
+            } else {
                 this.output = this.injectContent(payload)[2];
             }
         }
@@ -595,7 +612,12 @@ class Keyboard {
 
     delete() {
         if (this.output !== "") {
-            this.output = this.output.substring(0, this.output.length-1);
+            if (!this.screenCursorPosition[0] || (this.output.length === this.screenCursorPosition[0] && this.output.length === this.screenCursorPosition[1])) {
+                console.log("hello")
+                this.output = this.output.substring(0, this.output.length-1);
+            } else {
+                this.output = this.extractContent()[2];
+            }
         }
 
         if (this.screen) {
@@ -607,6 +629,7 @@ class Keyboard {
 
     enter() {
         this.output += '\n';
+
         if (this.screen) {
             this.screen.value = this.output;
         }
@@ -615,7 +638,13 @@ class Keyboard {
     }
 
     space() {
-        this.output += " ";
+        const payload = " ";
+        if (!this.screenCursorPosition[0]) {
+            this.output += payload;
+        } else {
+            this.output = this.injectContent(payload)[2];
+        }
+
         if (this.screen) {
             this.screen.value = this.output;
         }
