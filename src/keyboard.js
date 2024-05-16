@@ -298,11 +298,6 @@ class Keyboard {
                             method(btn.innerHTML);
                         });
                         action = 'writeAux';
-                    /* } else if (/^&\w+/.test(btn.dataset.content)) {
-                        btn.addEventListener('click', () => {
-                            this.screen.innerHTML = this.screen.innerHTML + btn.dataset.content;
-                            this.output = this.screen.innerHTML;
-                        }); */
                     } else {
                         const method = this.write.bind(this);
                         btn.addEventListener('click', function() {
@@ -535,6 +530,14 @@ class Keyboard {
         this.screenCursorPosition = [this.screenCursorPosition[0]-1, this.screenCursorPosition[1]-1];
 
         return [this.output, null, newOutput];
+    }
+
+    mountDropdown(parentBtn) {
+
+    }
+
+    unmountDropdown(selectHTMLelement) {
+
     }
 
     write(payload) {

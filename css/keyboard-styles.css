@@ -532,79 +532,92 @@
     #fr-normal-Backspace, 
     #fr-capitalized-Backspace, 
     #fr-shifted-Backspace, 
-    #fr-alternated-Backspace {
+    #fr-alternated-Backspace,
+    #fr-emotional-Backspace {
         grid-column: 27 / -1;
     }
     #fr-normal-Tab, 
     #fr-capitalized-Tab, 
     #fr-shifted-Tab, 
-    #fr-alternated-Tab {
+    #fr-alternated-Tab,
+    #fr-emotional-Tab {
         grid-column: 1 / span 3;
     }
     #fr-normal-Caps, 
     #fr-capitalized-Caps, 
     #fr-shifted-Caps, 
-    #fr-alternated-Caps {
+    #fr-alternated-Caps,
+    #fr-emotional-Caps {
         grid-column: 1 / span 4;
     }
     #fr-normal-Enter, 
     #fr-capitalized-Enter, 
     #fr-shifted-Enter, 
-    #fr-alternated-Enter {
+    #fr-alternated-Enter,
+    #fr-emotional-Enter {
         grid-column: 27 / -1;
     }
     #fr-normal-Shift-1, 
     #fr-capitalized-Shift-1, 
     #fr-shifted-Shift-1, 
-    #fr-alternated-Shift-1 {
+    #fr-alternated-Shift-1,
+    #fr-emotional-Shift-1 {
         grid-column: 1 / 3;
     }
     #fr-normal-Shift-2, 
     #fr-capitalized-Shift-2, 
     #fr-shifted-Shift-2, 
-    #fr-alternated-Shift-2 {
+    #fr-alternated-Shift-2,
+    #fr-emotional-Shift-2 {
         grid-column: 26 / -1;
     }
     #fr-normal-Control-1, 
     #fr-capitalized-Control-1, 
     #fr-shifted-Control-1, 
-    #fr-alternated-Control-1 {
+    #fr-alternated-Control-1,
+    #fr-emotional-Control-1 {
         grid-column: 1 / span 3;
     }
     #fr-normal-Emoji, 
     #fr-capitalized-Emoji, 
     #fr-shifted-Emoji, 
-    #fr-alternated-Emoji {
+    #fr-alternated-Emoji,
+    #fr-emotional-Emoji {
         grid-column: 4 / 7;
     }
     #fr-normal-Alt-1, 
     #fr-capitalized-Alt-1, 
     #fr-shifted-Alt-1, 
-    #fr-alternated-Alt-1 {
+    #fr-alternated-Alt-1,
+    #fr-emotional-Alt-1 {
         grid-column: 7 / 10;
     }
     #fr-normal-Space, 
     #fr-capitalized-Space, 
     #fr-shifted-Space, 
-    #fr-alternated-Space {
+    #fr-alternated-Space
+    #fr-emotional-Space {
         grid-column: 10 / 22;
     }
     #fr-normal-Alt-2, 
     #fr-capitalized-Alt-2, 
     #fr-shifted-Alt-2, 
-    #fr-alternated-Alt-2 {
+    #fr-alternated-Alt-2,
+    #fr-emotional-Alt-2 {
         grid-column: span 3;
     }
     #fr-normal-Esc, 
     #fr-capitalized-Esc, 
     #fr-shifted-Esc, 
-    #fr-alternated-Esc {
+    #fr-alternated-Esc,
+    #fr-emotional-Esc {
         grid-column: span 3;
     }
     #fr-normal-Control-2, 
     #fr-capitalized-Control-2, 
     #fr-shifted-Control-2, 
-    #fr-alternated-Control-2 {
+    #fr-alternated-Control-2,
+    #fr-emotional-Control-2 {
         grid-column: span 3;
     }
     #fr-normal-42, 
@@ -614,6 +627,7 @@
         grid-column: 28 / -1;
         grid-row: 2 / 3;
     }
+    .keyboard--FR .keyboard__button[data-content="&lt"],
     .keyboard--FR .keyboard__button[data-content="&lt;"],
     .keyboard--FR .keyboard__button[data-content="&gt;"],
     .keyboard--FR.keyboard--alternated .keyboard__button[data-row="3"][data-column="11"] {

@@ -191,9 +191,9 @@ const frenchMap = {
     ],
     emotional: [
         [null, null, null, null, null, null, null, null, null, null, null, null, null, "Backspace"],
-        ["Tab", null, null, null, null, null, null, null, null, null, null, null, null, null],
-        ["Caps", null, null, null, null, null, null, null, null, null, null, null, "Enter"],
-        ["Shift", null, null, null,null, null,null, null, null, null, null, null, "Shift"],
+        ["Tab", "&#x1F642", "&#x1F970", "&#x1F60B", "&#x1F610", "&#x1F62A", "&#x1F637", "&#x1F615", "&#x1F624", "&#x1F9DF", "&#x1F63A", "&#x1F648", "&#x1F4A9"],
+        ["Caps", "&#x1F44B", "&#x1F471", "&#x1F46A", "&#x1F415", "&#x1F332", "&#x1F355", "&#x1F377", "&#x1F30D", "&#x1F3E0", "&#x1F697", "&#x1F570", "&#x1F326", "Enter"],
+        ["Shift", "&#x1F389", "&#x1F3AD", "&#x26BD", "&#x1F947", "&#x1F3B2", "&#x1F454", "&#x1F3B5", "&#x1F4BB", "&#x1F58C", "&#x1F4EA", "&#x1F4B5", "Shift"],
         ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ]
 };
@@ -278,8 +278,6 @@ const russianMap = {
 
 
 // EMOJI KEYS UNFOLDING ARRAYS
-// &#x
-
 const happyArray = [
     "&#x1F642", "&#x1F600", "&#x1F601", "&#x1F602", "&#x1F603", "&#x1F604", "&#x1F605", "&#x1F606", "&#x1F607",
     "&#x1F60C", "&#x1F643", "&#x1F911", "&#x1F920", "&#x1F929", "&#x1F4AC", "&#x1F4AD", "&#x1F5E8", "&#x1F5EF"
@@ -360,6 +358,22 @@ const peopleArray = [
     "&#x1F46A", "&#x1F46F", "&#x1F46B", "&#x1F46C", "&#x1F46D", "&#x1F46F", "&#x1F491", "&#x1F931", "&#x1F465"
 ]
 
+const animalArray = [
+
+]
+
+const plantArray = [
+
+]
+
+const foodArray = [
+
+]
+
+const beverageArray = [
+
+]
+
 const cosmicArray = [
     "&#x1F30D", "&#x1F4AB"
 ]
@@ -383,8 +397,16 @@ const timeArray = [
     "&#x1F561", "&#x1F562", "&#x1F563", "&#x1F564", "&#x1F565", "&#x1F566", "&#x1F567"
 ]
 
+const weatherArray = [
+
+]
+
 const celebrationArray = [
     "&#x1F389", "&#x1F483", "&#x1F57A", "&#x1F492", ""
+]
+
+const eventsArray = [ //denomination still to decide
+
 ]
 
 const sportsArray = [
@@ -393,6 +415,10 @@ const sportsArray = [
 
 const preciousArray = [
     "&#x1F947", "&#x1F48D", "&#x1F48E"
+]
+
+const gamesArray = [ //denomination still to decide
+
 ]
 
 const clothingArray = [
@@ -421,7 +447,52 @@ const mailingArray = [
     "&#x1F4E9", "&#x1F4EB", "&#x1F4EC", "&#x1F4ED", "&#x1F4EE", "&#x1F4EF", "&#x1F4F0", "&#x1F5DE"
 ]
 
+const moneyArray = [
 
+]
+
+
+// Not included in the Keyboard
 const toolArray = [
     "&#x1F5DC", "&#x1F5DD", "&#x1F5E1"
 ]
+
+
+// EMOJI GROUP KEY IDENTIFIER
+const emojiConverter = {
+    x1F642: happyArray,
+    x1F970: lovelyArray,
+    x1F60B: playfulArray,
+    x1F610: neutralArray,
+    x1F62A: exhaustedArray,
+    x1F637: sickArray,
+    x1F615: sadArray,
+    x1F624: angryArray,
+    x1F9DF: fantasyArray,
+    x1F63A: catfaceArray,
+    x1F648: monkeyfaceArray,
+    x1F4A9: bodyArray,
+    x1F44B: handgesturesArray,
+    x1F471: personArray,
+    x1F46A: peopleArray,
+    x1F415: animalArray,
+    x1F332: plantArray,
+    x1F355: foodArray,
+    x1F377: beverageArray,
+    x1F30D: cosmicArray,
+    x1F3E0: buildingArray,
+    x1F697: transportArray,
+    x1F570: timeArray,
+    x1F326: weatherArray,
+    x1F389: celebrationArray,
+    x1F3AD: eventsArray, //denomination still to decide
+    x26BD: sportsArray,
+    x1F947: preciousArray,
+    x1F3B2: gamesArray, //denomination still to decide
+    x1F454: clothingArray,
+    x1F3B5: soundArray,
+    x1F4BB: officeArray,
+    x1F58C: writingArray,
+    x1F4EA: mailingArray,
+    x1F4B5: moneyArray
+}
