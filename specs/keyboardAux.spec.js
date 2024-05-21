@@ -372,45 +372,135 @@ describe('KEYBOARD.JS AUXILIARY METHODS', function() {
         })
     })
 
-    xdescribe('mountDropdown()', function() {
-        it('should be 1 parameter that should be an HTML element of type "button" with class attribute "keyboard__button--emoji"', function() {
+    describe('mountDropdown()', function() {
+        let mountingExecution;
+        
+        beforeAll(() => {
+            mainTestDiv = document.createElement('div');
+            mainTestDiv.setAttribute('id', 'main-element');
+            mainTestDiv.style.opacity = '0';
+            document.body.appendChild(mainTestDiv);
+            keyboard = new Keyboard('main-element', 'spanish');
+            keyboard.init();
 
+            mountingExecution = new Promise((resolve) => {
+                const mountingExecuted = keyboard.mountDropdown(document.getElementById('es-emotional-&#x1F4A9'));
+
+                if(mountingExecuted) {
+                    resolve(document.getElementById('es-emotional-&#x1F4A9'));
+                }
+            })
+        })
+
+        it('should get 1 parameter that should be an HTML element of type "button" with class attribute "keyboard__button--emoji"', function() {
+            const btn1 = document.getElementById('es-emotional-&#x1F377');
+            const test1 = keyboard.mountDropdown(btn1);
+
+            const btn2 = document.getElementById('es-normal-111');
+            const test2 = keyboard.mountDropdown(btn2);
+
+            const btn3 = document.getElementById('es-shifted-Shift-1');
+            const test3 = keyboard.mountDropdown(btn3);
+
+            expect(test1.completed).toBeTrue();
+            expect(test2).toBeFalse();
+            expect(test3).toBeFalse();
         })
 
         it('should throw an error if it were called with more than 1 parameter', function() {
-
+            expect(function() {keyboard.mountDropdown('es-emotional-&#x1F642', 'es-emotional-&#x1F947')}).toThrowError('mountDropdown() must be called exactly with 1 argument.');
+            expect(function() {keyboard.mountDropdown(document.getElementById('es-emotional-&#x1F947'))}).not.toThrow();
         })
 
         it('should throw an error if it were called with an invalid parameter', function() {
-
+            expect(function() {keyboard.mountDropdown('hello world')}).toThrowError('mountDropdown() does not accept string arguments.');
+            expect(function() {keyboard.mountDropdown(2)}).toThrowError('mountDropdown() does not accept numeric arguments.');
+            expect(function() {keyboard.mountDropdown(document.getElementById('whatever'))}).toThrowError('mountDropdown() only accepts HTML elements as a valid argument.');
         })
 
-        it('should create a new HTML of type "select", as a direct child of the element passed in as the argument', function() {
-
+        it('should create a new HTML of type "select", as a direct child of the element passed in as the argument', function(done) {           
+            mountingExecution
+                .then((parentBtn) => {
+                    const childSelect = parentBtn.querySelector('select');
+                    expect(childSelect).toBeTruthy();
+                    done();
+                })
         })
 
-        it('should add a class attribute of "" to the "select" element', function() {
-
+        it('should add a class attribute of "emoji__select" to the "select" element', function(done) {
+            mountingExecution
+                .then((parentBtn) => {
+                    const childSelect = parentBtn.querySelector('select');
+                    expect(childSelect.classList.contains('emoji__select')).toBeTrue();
+                    done();
+                })
         })
 
-        it('should obtain the "data-content" value of the element passed in as argument and format it', function() {
+        it('should obtain the "data-content" value of the element passed in as argument and format it, according to the "emojiConverter" object keys format in "keyboard.map.js"', function() {
+            const btn1 = document.getElementById('es-emotional-&#x1F4B5');
+            const test1 = keyboard.mountDropdown(btn1);
 
+            const btn2 = document.getElementById('es-emotional-&#x1F30D');
+            const test2 = keyboard.mountDropdown(btn2);
+
+            const btn3 = document.getElementById('es-emotional-&#x1F415');
+            const test3 = keyboard.mountDropdown(btn3);
+
+            expect(/x[A-Z0-9]{4,5}/.test(test1.emojiGroupIdentifier)).toBeTrue();
+            expect(/x[A-Z0-9]{4,5}/.test(test2.emojiGroupIdentifier)).toBeTrue();
+            expect(/x[A-Z0-9]{4,5}/.test(test3.emojiGroupIdentifier)).toBeTrue();
         })
 
-        it('should look up the formatted "data-content" value and create as many "option" subelements as there are in the returned array', function() {
-
+        it('should look up the formatted "data-content" value in the "keyboard.map.js" file and create as many "option" subelements as there are in the returned array', function(done) {
+            mountingExecution
+                .then((parentBtn) => {
+                    const optionSubelements = Array.from(parentBtn.querySelectorAll('option'));
+                    const optionValues = optionSubelements.map((el) => el.value);
+                    expect(optionValues).toEqual(emojiConverter['x1F4A9']);
+                    done();
+                })
         })
 
-        it('should add an "onchange" event listener to the "select" element, that should call the "write()" method with the current value as argument', function() {
+        it('should add an "onchange" event listener to the "select" element, that should call the "write()" method with the current value as argument', function(done) {
+            spyOn(keyboard, 'write');
 
+            mountingExecution
+                .then((parentBtn) => {
+                    const childSelect = parentBtn.querySelector('select');
+                    childSelect.click();
+                    expect(keyboard.write).toHaveBeenCalled();
+                    expect(keyboard.write).toHaveBeenCalledTimes(1);
+                    expect(keyboard.write).toHaveBeenCalledWith('&#x1F9B7');
+                    done();
+                })
         })
 
-        it('should add an "onblur" event listener to the "select" element, that should call the "unmountDropdown()" method with the element itself as argument', function() {
+        it('should add an "onblur" event listener to the "select" element, that should call the "unmountDropdown()" method with the element itself as argument', function(done) {
+            spyOn(keyboard, 'unmountDropdown');
+            
+            mountingExecution
+                .then((parentBtn) => {
+                    const childSelect = parentBtn.querySelector('select');
+                    expect(keyboard.unmountDropdown).toHaveBeenCalled();
+                    done();
+                })
+        })
 
+        afterAll(() => {
+            keyboard = null;
+            mainTestDiv.remove();
+            mainTestDiv = null;
         })
     })
 
     xdescribe('unmountDropdown()', function() {
+        beforeAll(() => {
+            mainTestDiv = document.createElement('div');
+            mainTestDiv.setAttribute('id', 'main-element');
+            mainTestDiv.style.opacity = '0';
+            document.body.appendChild(mainTestDiv);
+        })
+
         it('should be 1 parameter that should be an HTML element of type "select"', function() {
 
         })
@@ -425,6 +515,11 @@ describe('KEYBOARD.JS AUXILIARY METHODS', function() {
 
         it('should remove the recived HTML element from the DOM', function() {
 
+        })
+
+        afterAll(() => {
+            mainTestDiv.remove();
+            mainTestDiv = null;
         })
     })
 })

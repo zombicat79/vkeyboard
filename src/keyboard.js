@@ -532,8 +532,40 @@ class Keyboard {
         return [this.output, null, newOutput];
     }
 
-    mountDropdown(parentBtn) {
+    mountDropdown(parentBtn, controlParam = null) {
+        if(controlParam) throw new Error('mountDropdown() must be called exactly with 1 argument.');
+        if(typeof parentBtn === 'string') throw new Error('mountDropdown() does not accept string arguments.');
+        if(typeof parentBtn === 'number') throw new Error('mountDropdown() does not accept numeric arguments.');
+        if(parentBtn === null) throw new Error('mountDropdown() only accepts HTML elements as a valid argument.');
 
+        if(parentBtn.nodeName !== 'BUTTON' || !(parentBtn.classList.contains('keyboard__button--emoji'))) {
+            return false;
+        }
+
+        const emojiSelect = document.createElement('select');
+        emojiSelect.classList.add('emoji__select');
+        parentBtn.appendChild(emojiSelect);
+
+        const formattedDataContent = parentBtn.dataset.content.substring(2);
+
+        const emojiGroupMembers = emojiConverter[formattedDataContent];
+        emojiGroupMembers.forEach((el) => {
+            const newOption = document.createElement('option');
+            newOption.value = el;
+            emojiSelect.appendChild(newOption);
+        });
+
+        const method1 = this.write.bind(this);
+        const method2 = this.unmountDropdown.bind(this);
+        emojiSelect.addEventListener('click', function() {
+            console.log("clicked!")
+            this.write(emojiSelect.value);
+        });
+        emojiSelect.addEventListener('blur', function() {
+            method2();
+        });
+        
+        return { completed: true, emojiGroupIdentifier: formattedDataContent, emojiGroupMembers: emojiGroupMembers};
     }
 
     unmountDropdown(selectHTMLelement) {
