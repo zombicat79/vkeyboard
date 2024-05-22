@@ -289,7 +289,6 @@ class Keyboard {
         if (btnClasses) {
             switch(true) {
                 case btnClasses.includes('standard'):
-                case btnClasses.includes('emoji'):
                     if (btn.dataset.content === "" || btn.dataset.content === "null") {
                         action = null;
                     } else if (/^\*/.test(btn.dataset.content)) {
@@ -304,6 +303,17 @@ class Keyboard {
                             method(btn.innerHTML);
                         });
                         action = 'write';
+                    }
+                    break;
+                case btnClasses.includes('emoji'):
+                    if (btn.dataset.content === "" || btn.dataset.content === "null") {
+                        action = null;
+                    } else {
+                        const method = this.mountDropdown.bind(this);
+                        btn.addEventListener('click', function() {
+                            method(btn);
+                        });
+                        action = 'dropdown';
                     }
                     break;
                 case btnClasses.includes('operation'):
@@ -542,6 +552,10 @@ class Keyboard {
             return false;
         }
 
+        if(parentBtn.querySelector('select')) {
+            return false;
+        }
+
         const emojiSelect = document.createElement('select');
         emojiSelect.classList.add('emoji__select');
         parentBtn.appendChild(emojiSelect);
@@ -551,25 +565,38 @@ class Keyboard {
         const emojiGroupMembers = emojiConverter[formattedDataContent];
         emojiGroupMembers.forEach((el) => {
             const newOption = document.createElement('option');
-            newOption.value = el;
+            newOption.value = String.fromCodePoint(parseInt (el.substring(3), 16));
+            newOption.innerText = String.fromCodePoint(parseInt (el.substring(3), 16));
+            el === parentBtn.dataset.content ? newOption.selected = true : null;
             emojiSelect.appendChild(newOption);
         });
 
         const method1 = this.write.bind(this);
         const method2 = this.unmountDropdown.bind(this);
-        emojiSelect.addEventListener('click', function() {
-            console.log("clicked!")
-            this.write(emojiSelect.value);
+        emojiSelect.addEventListener('change', function() {
+            method1(emojiSelect.value);
         });
         emojiSelect.addEventListener('blur', function() {
-            method2();
+            method2(emojiSelect);
         });
         
         return { completed: true, emojiGroupIdentifier: formattedDataContent, emojiGroupMembers: emojiGroupMembers};
     }
 
-    unmountDropdown(selectHTMLelement) {
+    unmountDropdown(selectHTMLelement, controlParam = null) {
+        if(controlParam) throw new Error('unmountDropdown() must be called exactly with 1 argument.');
+        if(typeof selectHTMLelement === 'string') throw new Error('unmountDropdown() does not accept string arguments.');
+        if(typeof selectHTMLelement === 'number') throw new Error('unmountDropdown() does not accept numeric arguments.');
+        if(selectHTMLelement === null) throw new Error('unmountDropdown() only accepts HTML elements as a valid argument.');
 
+        if(selectHTMLelement.nodeName !== 'SELECT' || !(selectHTMLelement.classList.contains('emoji__select'))) {
+            return false;
+        }
+
+        console.log("hey")
+        selectHTMLelement.remove();
+
+        return true;
     }
 
     write(payload) {

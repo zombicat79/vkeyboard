@@ -74,9 +74,9 @@ const britishMap = {
     ],
     emotional: [
         [null, null, null, null, null, null, null, null, null, null, null, null, null, "Backspace"],
-        ["Tab", null, null, null, null, null, null, null, null, null, null, null, null, null],
-        ["Caps", null, null, null, null, null, null, null, null, null, null, null, "Enter"],
-        ["Shift", null, null, null,null, null,null, null, null, null, null, null, "Shift"],
+        ["Tab", "&#x1F642", "&#x1F970", "&#x1F60B", "&#x1F610", "&#x1F62A", "&#x1F637", "&#x1F615", "&#x1F624", "&#x1F9DF", "&#x1F63A", "&#x1F648", "&#x1F4A9"],
+        ["Caps", "&#x1F44B", "&#x1F471", "&#x1F46A", "&#x1F415", "&#x1F332", "&#x1F355", "&#x1F377", "&#x1F30D", "&#x1F3E0", "&#x1F697", "&#x1F570", "&#x1F326", "Enter"],
+        ["Shift", "&#x1F389", "&#x1F3AD", "&#x26BD", "&#x1F947", "&#x1F3B2", "&#x1F454", "&#x1F3B5", "&#x1F4BB", "&#x1F58C", "&#x1F4EA", "&#x1F4B5", "Shift"],
         ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ]
 };
@@ -113,9 +113,9 @@ const americanMap = {
     ],
     emotional: [
         [null, null, null, null, null, null, null, null, null, null, null, null, null, "Backspace"],
-        ["Tab", null, null, null, null, null, null, null, null, null, null, null, null, null],
-        ["Caps", null, null, null, null, null, null, null, null, null, null, null, "Enter"],
-        ["Shift", null, null, null,null, null,null, null, null, null, null, "Shift"],
+        ["Tab", "&#x1F642", "&#x1F970", "&#x1F60B", "&#x1F610", "&#x1F62A", "&#x1F637", "&#x1F615", "&#x1F624", "&#x1F9DF", "&#x1F63A", "&#x1F648", "&#x1F4A9"],
+        ["Caps", "&#x1F44B", "&#x1F471", "&#x1F46A", "&#x1F415", "&#x1F332", "&#x1F355", "&#x1F377", "&#x1F30D", "&#x1F3E0", "&#x1F697", "&#x1F570", "&#x1F326", "Enter"],
+        ["Shift", "&#x1F389", "&#x1F3AD", "&#x26BD", "&#x1F947", "&#x1F3B2", "&#x1F454", "&#x1F3B5", "&#x1F4BB", "&#x1F58C", "&#x1F4EA", "&#x1F4B5", "Shift"],
         ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ]
 };
@@ -152,9 +152,9 @@ const italianMap = {
     ],
     emotional: [
         [null, null, null, null, null, null, null, null, null, null, null, null, null, "Backspace"],
-        ["Tab", null, null, null, null, null, null, null, null, null, null, null, null, null],
-        ["Caps", null, null, null, null, null, null, null, null, null, null, null, "Enter"],
-        ["Shift", null, null, null,null, null,null, null, null, null, null, null, "Shift"],
+        ["Tab", "&#x1F642", "&#x1F970", "&#x1F60B", "&#x1F610", "&#x1F62A", "&#x1F637", "&#x1F615", "&#x1F624", "&#x1F9DF", "&#x1F63A", "&#x1F648", "&#x1F4A9"],
+        ["Caps", "&#x1F44B", "&#x1F471", "&#x1F46A", "&#x1F415", "&#x1F332", "&#x1F355", "&#x1F377", "&#x1F30D", "&#x1F3E0", "&#x1F697", "&#x1F570", "&#x1F326", "Enter"],
+        ["Shift", "&#x1F389", "&#x1F3AD", "&#x26BD", "&#x1F947", "&#x1F3B2", "&#x1F454", "&#x1F3B5", "&#x1F4BB", "&#x1F58C", "&#x1F4EA", "&#x1F4B5", "Shift"],
         ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ]
 };
@@ -230,9 +230,9 @@ const germanMap = {
     ],
     emotional: [
         [null, null, null, null, null, null, null, null, null, null, null, null, null, "Backspace"],
-        ["Tab", null, null, null, null, null, null, null, null, null, null, null, null, null],
-        ["Caps", null, null, null, null, null, null, null, null, null, null, null, "Enter"],
-        ["Shift", null, null, null,null, null,null, null, null, null, null, null, "Shift"],
+        ["Tab", "&#x1F642", "&#x1F970", "&#x1F60B", "&#x1F610", "&#x1F62A", "&#x1F637", "&#x1F615", "&#x1F624", "&#x1F9DF", "&#x1F63A", "&#x1F648", "&#x1F4A9"],
+        ["Caps", "&#x1F44B", "&#x1F471", "&#x1F46A", "&#x1F415", "&#x1F332", "&#x1F355", "&#x1F377", "&#x1F30D", "&#x1F3E0", "&#x1F697", "&#x1F570", "&#x1F326", "Enter"],
+        ["Shift", "&#x1F389", "&#x1F3AD", "&#x26BD", "&#x1F947", "&#x1F3B2", "&#x1F454", "&#x1F3B5", "&#x1F4BB", "&#x1F58C", "&#x1F4EA", "&#x1F4B5", "Shift"],
         ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ]
 };
@@ -269,15 +269,16 @@ const russianMap = {
     ],
     emotional: [
         [null, null, null, null, null, null, null, null, null, null, null, null, null, "Backspace"],
-        ["Tab", null, null, null, null, null, null, null, null, null, null, null, null, null],
-        ["Caps", null, null, null, null, null, null, null, null, null, null, null, "Enter"],
-        ["Shift", null, null, null,null, null,null, null, null, null, null, null, "Shift"],
+        ["Tab", "&#x1F642", "&#x1F970", "&#x1F60B", "&#x1F610", "&#x1F62A", "&#x1F637", "&#x1F615", "&#x1F624", "&#x1F9DF", "&#x1F63A", "&#x1F648", "&#x1F4A9"],
+        ["Caps", "&#x1F44B", "&#x1F471", "&#x1F46A", "&#x1F415", "&#x1F332", "&#x1F355", "&#x1F377", "&#x1F30D", "&#x1F3E0", "&#x1F697", "&#x1F570", "&#x1F326", "Enter"],
+        ["Shift", "&#x1F389", "&#x1F3AD", "&#x26BD", "&#x1F947", "&#x1F3B2", "&#x1F454", "&#x1F3B5", "&#x1F4BB", "&#x1F58C", "&#x1F4EA", "&#x1F4B5", "Shift"],
         ["Control", "Emoji", "Alt", "Space", "Alt", "Esc", "Control"]
     ]
 };
 
 
-// EMOJI KEYS UNFOLDING ARRAYS
+// EMOJI KEYS UNFOLDING ARRAYS (DROPDOWN OPTIONS)
+// Method to convert hex numbers into emojis: --> String.fromCodePoint(parseInt ("1F923", 16))
 const happyArray = [
     "&#x1F642", "&#x1F600", "&#x1F601", "&#x1F602", "&#x1F603", "&#x1F604", "&#x1F605", "&#x1F606", "&#x1F607",
     "&#x1F60C", "&#x1F643", "&#x1F911", "&#x1F920", "&#x1F929", "&#x1F4AC", "&#x1F4AD", "&#x1F5E8", "&#x1F5EF"
@@ -398,11 +399,11 @@ const timeArray = [
 ]
 
 const weatherArray = [
-
+    
 ]
 
 const celebrationArray = [
-    "&#x1F389", "&#x1F483", "&#x1F57A", "&#x1F492", ""
+    "&#x1F389", "&#x1F483", "&#x1F57A", "&#x1F492"
 ]
 
 const eventsArray = [ //denomination still to decide
