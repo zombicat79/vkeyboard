@@ -560,6 +560,11 @@ class Keyboard {
         emojiSelect.classList.add('emoji__select');
         parentBtn.appendChild(emojiSelect);
 
+        const optionSelector = document.createElement('option');
+        optionSelector.value = null;
+        optionSelector.innerText = "\u2753";
+        emojiSelect.appendChild(optionSelector);
+
         const formattedDataContent = parentBtn.dataset.content.substring(2);
 
         const emojiGroupMembers = emojiConverter[formattedDataContent];
@@ -567,19 +572,20 @@ class Keyboard {
             const newOption = document.createElement('option');
             newOption.value = String.fromCodePoint(parseInt (el.substring(3), 16));
             newOption.innerText = String.fromCodePoint(parseInt (el.substring(3), 16));
-            el === parentBtn.dataset.content ? newOption.selected = true : null;
             emojiSelect.appendChild(newOption);
         });
 
         const method1 = this.write.bind(this);
-        const method2 = this.unmountDropdown.bind(this);
+        const method2 = this.unmountDropdown.bind(this);    
         emojiSelect.addEventListener('change', function() {
             method1(emojiSelect.value);
+            optionSelector.selected = true;
         });
         emojiSelect.addEventListener('blur', function() {
             method2(emojiSelect);
         });
         
+        emojiSelect.focus();
         return { completed: true, emojiGroupIdentifier: formattedDataContent, emojiGroupMembers: emojiGroupMembers};
     }
 
@@ -593,7 +599,6 @@ class Keyboard {
             return false;
         }
 
-        console.log("hey")
         selectHTMLelement.remove();
 
         return true;

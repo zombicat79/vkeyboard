@@ -380,7 +380,7 @@ const cosmicArray = [
 ]
 
 const buildingArray = [
-    "&#x1F3E0", "&#x1F488", "inside", "&#x1F5BC"
+    "&#x1F3E0", "&#x1F488", "&#x1F5BC"
 ]
 
 const transportArray = [
