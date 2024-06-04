@@ -677,14 +677,17 @@ class Keyboard {
         return this.graphModifier;
     }
 
-    delete() {
+    async delete() {
         if (this.output !== "") {
+            // clean up preoutput from all ASCII 55357 occurrences
+            let preOutput;
             if (!this.screenCursorPosition[0] || (this.output.length === this.screenCursorPosition[0] && this.output.length === this.screenCursorPosition[1])) {
-                console.log("hello")
-                this.output = this.output.substring(0, this.output.length-1);
+                preOutput = this.output.substring(0, this.output.length-1);
             } else {
-                this.output = this.extractContent()[2];
+                preOutput = this.extractContent()[2];
             }
+            const trashInspection = await this.lookForTrash(preOutput);
+            trashInspection ? this.output = await this.deleteEmojiTrash(trashInspection) : this.output = preOutput;
         }
 
         if (this.screen) {
@@ -692,6 +695,30 @@ class Keyboard {
         }
 
         return this.output;
+    }
+
+    async lookForTrash(input) {
+        // clean up preoutput from all ASCII 55357 occurrences
+        const searchPromise = new Promise((resolve, reject) => {
+            if (typeof input === 'string') {
+                const arrayFromInput = input.split("");
+                const outputArray = arrayFromInput.map((el) => {
+                    return el.charCodeAt(0);
+                });
+                let dirtyCheck;
+                outputArray.includes(55357) ? dirtyCheck = true : dirtyCheck = false;
+                resolve({ checkableInput: arrayFromInput, checkedOutput: outputArray, dirty: dirtyCheck });
+            } else {
+                reject("not a string");
+            }
+        })
+
+        return searchPromise;
+    }
+    
+    async deleteEmojiTrash() {
+        // clean up preoutput from all ASCII 55357 occurrences
+
     }
 
     enter() {

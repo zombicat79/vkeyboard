@@ -545,4 +545,83 @@ describe('KEYBOARD.JS AUXILIARY METHODS', function() {
             mainTestDiv = null;
         })
     })
+
+    describe('lookForTrash()', function() {
+        beforeAll(() => {
+            mainTestDiv = document.createElement('div');
+            mainTestDiv.setAttribute('id', 'main-element');
+            mainTestDiv.style.opacity = '0';
+            document.body.appendChild(mainTestDiv);
+            keyboard = new Keyboard('main-element', 'spanish');
+            keyboard.init();
+        })
+
+        it('should receive one argument of type "string"', function(done) {
+            keyboard.lookForTrash('this is a test!')
+                .then(result => {
+                    expect(result).toBeTruthy();
+                })
+
+            keyboard.lookForTrash(3467)
+                .then()
+                .catch(err => {
+                    expect(err).toBe('not a string');
+                })
+
+            keyboard.lookForTrash('🙈👁🥱😯')
+                .then(result => {
+                    expect(result).toBeTruthy();
+                })
+            
+            done();
+        })
+
+        it('should create an array with all the separate characters in the received string', function(done) {
+            keyboard.lookForTrash('this is a test!')
+                .then(result => {
+                    expect(result.checkableInput.length).toBe(15);
+                    expect(result.checkableInput[0]).toBe('t');
+                    expect(result.checkableInput[3]).toBe('s');
+                    done();
+                })
+        })
+
+        it('should map the array and return a new array with all string converted to ASCII codes', function(done) {
+            keyboard.lookForTrash('ABCabc')
+                .then(result => {
+                    expect(result.checkedOutput.length).toBe(6);
+                    expect(result.checkedOutput).toEqual([65, 66, 67, 97, 98, 99]);
+                })
+
+            keyboard.lookForTrash('Tremendous work')
+                .then(result => {
+                    expect(result.checkedOutput.length).toBe(15);
+                    expect(result.checkedOutput).toEqual([84, 114, 101, 109, 101, 110, 100, 111, 117, 115, 32, 119, 111, 114, 107]);
+                })
+
+            done();
+        })
+
+        it('should return an object containing "dirty:false" if the new array did not contain ASCII character 55357', function(done) {
+            keyboard.lookForTrash('this is a test!')
+                .then(result => {
+                    expect(result.dirty).toBeFalse();
+                    done();
+                })
+        })
+
+        it('should return an object containing "dirty:true" if the new array DID contain ASCII character 55357', function(done) {
+            keyboard.lookForTrash('😻😢🤯😎')
+                .then(result => {
+                    expect(result.dirty).toBeTrue();
+                    done();
+                })
+        })
+
+        afterAll(() => {
+            keyboard = null;
+            mainTestDiv.remove();
+            mainTestDiv = null;
+        })
+    })
 })
